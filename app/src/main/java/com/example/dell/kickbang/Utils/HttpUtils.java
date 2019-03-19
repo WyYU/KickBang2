@@ -8,10 +8,17 @@ import com.example.dell.kickbang.Resours.Resource;
  */
 
 public class HttpUtils {
+	public static HttpUtils httpUtils;
 	private Resource res;
 
-	public HttpUtils() {
+	private HttpUtils() {
 		res = new Resource();
+	}
+	public static synchronized HttpUtils getHttpUtils(){
+		if (httpUtils == null){
+			httpUtils = new HttpUtils();
+		}
+		return httpUtils;
 	}
 	public String getLoginurl(String username,String pwd){
 		return res.LOCALOHST+res.LOGIN+res.USERNAME+username+res.AND+res.PASSWORD+pwd;

@@ -28,10 +28,9 @@
                 android:text="用户名：" />
 
             <EditText
-                android:id="@+id/uname_editview"
+                android:id="@+id/uname_regist_editview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_weight="5" />
         </LinearLayout>
         <LinearLayout
@@ -41,15 +40,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:text="密   码："
                 android:id="@+id/upwd_regist_textview"/>
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_weight="5"
+                android:inputType="textPassword"
                 android:id="@+id/upwd_regist_editview"/>
         </LinearLayout>
         <LinearLayout
@@ -66,6 +65,7 @@
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:layout_weight="5"
                 android:id="@+id/rpwd_regist_editview"/>
         </LinearLayout>
