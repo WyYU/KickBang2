@@ -9,45 +9,33 @@
         android:layout_width="match_parent"
         android:layout_height= "match_parent"
         android:orientation="vertical">
-        <ImageView
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="用户名："
-                android:id="@+id/uname_textview"/>
+            android:layout_marginTop="20dp">
+
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/uname_editview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:id="@+id/uname_editview"/>
-        </LinearLayout>
-        <LinearLayout
+                android:hint="用户名" />
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:text="密   码："
-                android:id="@+id/upwd_textview"/>
+            app:passwordToggleEnabled="true">
+
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/upwd_editview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:inputType="textPassword"
-                android:id="@+id/upwd_editview"/>
-        </LinearLayout>
+                android:hint="密码"
+                android:inputType="textPassword" />
+        </android.support.design.widget.TextInputLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
