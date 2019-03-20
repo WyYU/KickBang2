@@ -8,6 +8,9 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.dell.kickbang.Adapter.TabAdapter;
 import com.example.dell.kickbang.Fragment.MainFragment;
@@ -20,6 +23,7 @@ import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
 import com.example.dell.kickbang.Utils.HttpUtils;
 import com.example.dell.kickbang.Utils.Utils;
+import com.szysky.customize.siv.SImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +34,6 @@ public class MainActivity extends AppCompatActivity {
 	Presenter presenter;
 	HttpUtils httpUtils;
 	Utils utils;
-	User user;
-	List<User> teammate;
-	List<Field> fields;
-	Team team;
 	private TabLayout tabLayout;
 	private ViewPager viewPager;
 	private PagerAdapter pagerAdapter;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 		httpUtils = HttpUtils.getHttpUtils();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		prepareData();
+		//prepareData();
 		initView();
 		initEvent();
 	}
@@ -63,15 +63,11 @@ public class MainActivity extends AppCompatActivity {
 		adapter.setData(list);
 		viewPager.setAdapter(adapter);
 		tabLayout.setupWithViewPager(viewPager);
-//		tabLayout.addTab(tabLayout.newTab());
-//		tabLayout.addTab(tabLayout.newTab());
-//		tabLayout.addTab(tabLayout.newTab());
 		tabLayout.getTabAt(0).setText("主页").setIcon(R.mipmap.ic_explore_white_48dp);
 		tabLayout.getTabAt(1).setText("球队").setIcon(R.mipmap.ic_people_white_48dp);
 		tabLayout.getTabAt(2).setText("我的").setIcon(R.mipmap.ic_account_circle_white_48dp);
 		tabLayout.setBackgroundColor(Color.GREEN);
 		tabLayout.setSelectedTabIndicatorColor(Color.BLACK);
-		tabLayout.setSelectedTabIndicatorHeight(tabLayout.getHeight() - 10);
 	}
 
 	private void initEvent() {
@@ -85,22 +81,22 @@ public class MainActivity extends AppCompatActivity {
 		list.add(new TeamFragment());
 	}
 
-	private void prepareData() {
-		Intent intent = getIntent();
-		final String uname = intent.getStringExtra("username");
-		try {
-			user = presenter.queryUser(uname);
-			team = presenter.queryteam(String.valueOf(user.getTid()));
-			fields = presenter.queryField();
-
-			if (user.getTid() != 26) {
-				teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
-				//Log.e(Tag,teammate.toString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			utils.showNormalDialog(MainActivity.this, "数据初始化错误请检查网络！");
-		}
-
-	}
+//	private void prepareData() {
+//		Intent intent = getIntent();
+//		final String uname = intent.getStringExtra("username");
+//		try {
+//			user = presenter.queryUser(uname);
+//			team = presenter.queryteam(String.valueOf(user.getTid()));
+//			fields = presenter.queryField();
+//
+//			if (user.getTid() != 26) {
+//				teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
+//				//Log.e(Tag,teammate.toString());
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			utils.showNormalDialog(MainActivity.this, "数据初始化错误请检查网络！");
+//		}
+//
+//	}
 }

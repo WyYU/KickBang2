@@ -38,32 +38,104 @@
                 app:cardCornerRadius="24dp"
                 app:cardElevation="6dp"
                 app:cardUseCompatPadding="true">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center_horizontal|center"
+                    android:orientation="vertical"
                     android:padding="14dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
+
                         <com.szysky.customize.siv.SImageView
                             android:layout_width="72dp"
                             android:layout_height="72dp"
-                            app:displayType="circle"
                             app:border_color="@color/colorPrimaryDark"
+                            app:displayType="circle"
                             app:img="@drawable/touxiang1"
-                            app:scaleType="fix_XY"/>
-                        <TextView
+                            app:scaleType="fix_XY" />
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/textsize"
-                            android:text="  用户名："/>
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/main_username_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="  用户名："
+                                android:textSize="@dimen/textsize" />
+
+                            <TextView
+                                android:id="@+id/main_uid_texiview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="    id:"
+                                android:textSize="@dimen/littlezise" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
+
                         <TextView
-                            android:id="@+id/main_username_textview"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/textsize"
-                            android:text="null"/>
+                            android:layout_weight="1"
+                            android:text="球队" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="进球" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="助攻" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp">
+
+                        <TextView
+                            android:id="@+id/main_teamname_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="null"
+                            android:textSize="@dimen/textsize" />
+
+                        <TextView
+                            android:id="@+id/main_goal_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="@dimen/textsize" />
+
+                        <TextView
+                            android:id="@+id/main_ass_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textSize="@dimen/textsize" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -111,9 +183,11 @@
                     android:background="@color/White"
                     android:text="222" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!---->
+                <!--</android.support.v7.widget.RecyclerView>-->
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
