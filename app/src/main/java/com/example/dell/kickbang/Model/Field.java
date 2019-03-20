@@ -71,4 +71,8 @@ public class Field implements Serializable{
         return result;
     }
 
+    @Override
+    public String toString() {
+        return getName()+" 地址："+getAddress();
+    }
 }

@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
 
@@ -13,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,6 +130,32 @@ public class Utils {
 			e.printStackTrace();
 		}
 		//Log.e("asd", list.toString());
+		return list;
+	}
+
+	public List<Field> jsontoField(String string) {
+		List<Field> list = new ArrayList();
+		try {
+			JSONArray resultArray = new JSONArray(string);
+			JSONObject jsonObject = resultArray.getJSONObject(0);
+			if (jsonObject.getString("result").equals("0")){
+				return null;
+			}
+			JSONArray fields = resultArray.getJSONArray(1);
+			Log.e("sad",fields.toString());
+			for(int i = 0; i<fields.length();i++){
+				Field field = new Field();
+				JSONObject object = fields.getJSONObject(i);
+				field.setName(object.getString("fname"));
+				field.setAddress(object.getString("address"));
+				field.setPrive(object.getDouble("private"));
+				field.setRate(object.getString("rate"));
+				list.add(field);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
 		return list;
 	}
 }

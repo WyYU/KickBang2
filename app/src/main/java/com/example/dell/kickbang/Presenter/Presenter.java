@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.dell.kickbang.Activity.LoginActivity;
+import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.Resours.Resource;
@@ -164,6 +165,29 @@ public class Presenter {
 				return list1;
 			}
 		});
+		try {
+			return future.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public List<Field> queryField(){
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<List<Field>> future = threadPoolService.submit(new Callable<List<Field>>() {
+			@Override
+			public List<Field> call() throws Exception {
+				String qfiledurl = httpUtils.getQueryFieldUrl();
+				Request request = new Request.Builder().url(qfiledurl).build();
+				Call call = client.newCall(request);
+				Response response = call.execute();
+				List<Field> list = utils.jsontoField(response.body().string());
+				return list;
+			}
+		});
+
 		try {
 			return future.get();
 		} catch (InterruptedException e) {
