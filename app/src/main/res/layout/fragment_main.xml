@@ -57,6 +57,7 @@
                             android:layout_height="72dp"
                             app:border_color="@color/colorPrimaryDark"
                             app:displayType="circle"
+                            android:id="@+id/user_icon_image"
                             app:img="@drawable/touxiang1"
                             app:scaleType="fix_XY" />
 
@@ -74,8 +75,9 @@
 
                             <TextView
                                 android:id="@+id/main_uid_texiview"
-                                android:layout_width="wrap_content"
+                                android:layout_width="31dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="    id:"
                                 android:textSize="@dimen/littlezise" />
                         </LinearLayout>
@@ -141,6 +143,7 @@
             </android.support.v7.widget.CardView>
 
             <TextView
+                android:id="@+id/team_Title_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="  球队"
@@ -149,17 +152,84 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/team_cardView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
                 android:layout_centerInParent="true"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="6dp"
-                app:cardUseCompatPadding="true">
+                android:padding="14dp"
 
-                <TextView
+                app:cardUseCompatPadding="true"
+                >
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@color/White"
-                    android:text="222" />
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal|center"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:id="@+id/team_linerlayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.szysky.customize.siv.SImageView
+                            android:id="@+id/team_icon_image"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            app:border_color="@color/colorPrimaryDark"
+                            app:displayType="circle"
+                            app:img="@drawable/touxiang1"
+                            app:scaleType="fix_XY" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/teamname_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 队伍名 :" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 创建日期 :   " />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" 球队人数 :   " />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/teamname_showview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" " />
+
+                            <TextView
+                                android:id="@+id/teamData_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+
+                            <TextView
+                                android:id="@+id/teamcount_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" " />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <TextView
@@ -171,23 +241,16 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/field_cardView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="300dp"
                 android:layout_centerInParent="true"
                 app:cardCornerRadius="24dp"
+                android:padding="14dp"
                 app:cardElevation="6dp"
                 app:cardUseCompatPadding="true">
-
-                <TextView
+                <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:background="@color/White"
-                    android:text="222" />
-
-                <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content">-->
-                    <!---->
-                <!--</android.support.v7.widget.RecyclerView>-->
+                    android:layout_height="wrap_content"
+                    android:id="@+id/field_list"></ListView>
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>

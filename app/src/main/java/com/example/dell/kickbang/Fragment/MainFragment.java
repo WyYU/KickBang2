@@ -1,21 +1,18 @@
 package com.example.dell.kickbang.Fragment;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.dell.kickbang.Activity.MainActivity;
+import com.example.dell.kickbang.Adapter.FieldAdapter;
 import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
@@ -40,7 +37,7 @@ public class MainFragment extends Fragment {
 	Utils utils;
 	User user;
 	List<User> teammate;
-	List<Field> fields;
+	ArrayList<Field> fields;
 	Team team;
 	SImageView imageView;
 	TextView username;
@@ -48,25 +45,47 @@ public class MainFragment extends Fragment {
 	TextView teamTextView;
 	TextView goalTextView;
 	TextView assTextview;
-	private TabLayout tabLayout;
-	private ViewPager viewPager;
-	private PagerAdapter pagerAdapter;
-	private ArrayList<android.app.Fragment> fragments = new ArrayList<>();
-	private String[] title = new String[]{"a", "b", "c"};
+	Resource resource;
+	TextView teamnametextview;
+	TextView teamDataView;
+	TextView teamcountView;
+	SImageView teamImage;
+	CardView teamcardView;
+	ListView fieldLIstView;
 	private static String Tag = "Fragment";
-	public View thisview;
-	private List<android.support.v4.app.Fragment> list;
+	public View view;
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		thisview = inflater.inflate(R.layout.fragment_main, null);
-		Log.e(Tag, String.valueOf(thisview));
-		username = thisview.findViewById(R.id.main_username_textview);
-		userid = thisview.findViewById(R.id.main_uid_texiview);
-		teamTextView = thisview.findViewById(R.id.main_teamname_textview);
-		goalTextView = thisview.findViewById(R.id.main_goal_textview);
-		assTextview = thisview.findViewById(R.id.main_ass_textview);
+		view = inflater.inflate(R.layout.fragment_main, null);
+		initView();
+		initUserCard();
+		initTeamCard();
+		initFieldCard();
+		return view;
+	}
+
+	private void initFieldCard() {
+		Log.e("   ",fields.toString());
+		FieldAdapter fieldAdapter = new FieldAdapter(getContext(),R.layout.field_item,fields);
+		fieldLIstView.setAdapter(fieldAdapter);
+	}
+
+	public void initTeamCard() {
+		if (user.getTid() ==26 ){
+			teamnametextview.setText(" 无球队 请先加入！");
+			teamDataView.setText("别看了赶紧加个球队吧！");
+			teamcountView.setText("0");
+		}else {
+			teamnametextview .setText(team.getTname());
+			teamDataView.setText(team.getCreateTime().toString());
+			teamImage.setImageUrls(resource.LOCALOHST+team.getIconpath());
+			//teamcountView.setText(String.valueOf(teammate.size()));
+		}
+	}
+
+	public void initUserCard() {
 		username.setText("  用户名："+user.getUsername());
 		userid.setText("  id:"+user.getId());
 		if (user.getTid()==26){
@@ -74,11 +93,28 @@ public class MainFragment extends Fragment {
 		}else {teamTextView.setText(team.getTname());}
 		goalTextView.setText(String.valueOf(user.getGoal()));
 		assTextview.setText(String.valueOf(user.getAssisting()));
-		return thisview;
+		String imageurl = resource.LOCALOHST+user.getImagepatch();
+		imageView.setImageUrls(imageurl);
+	}
+
+	public void initView() {
+		teamcardView = view.findViewById(R.id.team_cardView);
+		imageView = view.findViewById(R.id.user_icon_image);
+		username = view.findViewById(R.id.main_username_textview);
+		userid = view.findViewById(R.id.main_uid_texiview);
+		teamTextView = view.findViewById(R.id.main_teamname_textview);
+		goalTextView = view.findViewById(R.id.main_goal_textview);
+		assTextview = view.findViewById(R.id.main_ass_textview);
+		teamnametextview = view.findViewById(R.id.teamname_showview);
+		teamDataView = view.findViewById(R.id.teamData_view);
+		teamcountView = view.findViewById(R.id.teamcount_view);
+		teamImage = view.findViewById(R.id.team_icon_image);
+		fieldLIstView = view.findViewById(R.id.field_list);
 	}
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
+		resource = new Resource();
 		presenter = new Presenter();
 		utils = Utils.getInstance();
 		res = new Resource();
@@ -93,16 +129,10 @@ public class MainFragment extends Fragment {
 		try {
 			user = presenter.queryUser(uname);
 			team = presenter.queryteam(String.valueOf(user.getTid()));
-			fields = presenter.queryField();
-
-			if (user.getTid() != 26) {
-				teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
-				//Log.e(Tag,teammate.toString());
-			}
+			fields = (ArrayList<Field>) presenter.queryField();
 		} catch (Exception e) {
 			e.printStackTrace();
 			//utils.showNormalDialog(MainActivity.this, "数据初始化错误请检查网络！");
 		}
-
 	}
 }

@@ -2,7 +2,6 @@ package com.example.dell.kickbang.Utils;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -14,10 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -93,9 +90,11 @@ public class Utils {
 			}
 			team.setTid(jsonObject.getInt("tid"));
 			team.setTname(jsonObject.getString("teamname"));
-			//team.setCreateTime(date);
+			String data = jsonObject.getString("createtime");
+			team.setCreateTime(Date.valueOf(data));
 			team.setColorcode(jsonObject.getString("colorcode"));
 			team.setIntroduce(jsonObject.getString("introduce"));
+			team.setIconpath(jsonObject.getString("imagepath"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return null;
@@ -142,7 +141,6 @@ public class Utils {
 				return null;
 			}
 			JSONArray fields = resultArray.getJSONArray(1);
-			Log.e("sad",fields.toString());
 			for(int i = 0; i<fields.length();i++){
 				Field field = new Field();
 				JSONObject object = fields.getJSONObject(i);

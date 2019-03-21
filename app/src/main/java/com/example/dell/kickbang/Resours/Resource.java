@@ -6,6 +6,7 @@ package com.example.dell.kickbang.Resours;
 
 public class Resource {
 	public final String LOCALOHST = "http://192.168.2.118:8080/";
+	public final String imagePath = "";
 	public final String AND = "&";
 
 	public final String LOGIN = "login?";

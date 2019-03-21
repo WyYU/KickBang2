@@ -1,16 +1,11 @@
 package com.example.dell.kickbang.Activity;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import com.example.dell.kickbang.Adapter.TabAdapter;
 import com.example.dell.kickbang.Fragment.MainFragment;
@@ -23,7 +18,6 @@ import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
 import com.example.dell.kickbang.Utils.HttpUtils;
 import com.example.dell.kickbang.Utils.Utils;
-import com.szysky.customize.siv.SImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +30,11 @@ public class MainActivity extends AppCompatActivity {
 	Utils utils;
 	private TabLayout tabLayout;
 	private ViewPager viewPager;
-	private PagerAdapter pagerAdapter;
-	private ArrayList<Fragment> fragments = new ArrayList<>();
 	private List<android.support.v4.app.Fragment> list;
-	private String[] title = new String[]{"a", "b", "c"};
-
+//	User user;
+//	List<User> teammate;
+//	ArrayList<Field> fields;
+	Team team;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		presenter = new Presenter();
@@ -87,16 +81,12 @@ public class MainActivity extends AppCompatActivity {
 //		try {
 //			user = presenter.queryUser(uname);
 //			team = presenter.queryteam(String.valueOf(user.getTid()));
-//			fields = presenter.queryField();
-//
-//			if (user.getTid() != 26) {
-//				teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
-//				//Log.e(Tag,teammate.toString());
-//			}
+//			fields = (ArrayList<Field>) presenter.queryField();
 //		} catch (Exception e) {
 //			e.printStackTrace();
-//			utils.showNormalDialog(MainActivity.this, "数据初始化错误请检查网络！");
+//			//utils.showNormalDialog(MainActivity.this, "数据初始化错误请检查网络！");
 //		}
 //
 //	}
+
 }

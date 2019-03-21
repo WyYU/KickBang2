@@ -50,23 +50,23 @@ public class Presenter {
 		httpUtils = HttpUtils.getHttpUtils();
 		client = MyClient.getInstance();
 	}
-	public String login(String uname,String pwd){
-		String loginurl = httpUtils.getLoginurl(uname,pwd);
-		String res = "0";
-		Request request = new Request.Builder().url(loginurl).build();
-
-		try {
-			Response response = client.newCall(request).execute();
-			String result = response.body().string();
-			JSONObject jsonObject = new JSONObject(result);
-			res = jsonObject.getString("result");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
+//	public String login(String uname,String pwd){
+//		String loginurl = httpUtils.getLoginurl(uname,pwd);
+//		String res = "0";
+//		Request request = new Request.Builder().url(loginurl).build();
+//		Log.e("",loginurl);
+//		try {
+//			Response response = client.newCall(request).execute();
+//			String result = response.body().string();
+//			JSONObject jsonObject = new JSONObject(result);
+//			res = jsonObject.getString("result");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//		}
+//		return res;
+//	}
 
 	public String  regist(final String uname, final String pwd) {
 
@@ -159,7 +159,6 @@ public class Presenter {
 				Call call = client.newCall(request);
 				Response response = call.execute();
 				String resjson = response.body().string();
-				Log.e(TAG,resjson);
 				System.out.println(resjson);
 				List<User> list1 = utils.jsontoUserlist(resjson);
 				return list1;
@@ -196,5 +195,30 @@ public class Presenter {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String login(final String username, final String password){
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				String loginurl = httpUtils.getLoginurl(username,password);
+				Request request = new Request.Builder().url(loginurl).build();
+				Call call = client.newCall(request);
+				Response response = call.execute();
+				String resjson = response.body().string();
+				JSONObject jsonObject = new JSONObject(resjson);
+				String result = jsonObject.getString("result");
+				return result;
+			}
+		});
+		try {
+			return future.get().toString();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return "0";
 	}
 }

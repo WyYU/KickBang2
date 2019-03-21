@@ -1,5 +1,6 @@
 package com.example.dell.kickbang.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,46 +33,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	private int REQUESTCODE = 1;
 	private SharedPreferences preferences;
 	private SharedPreferences.Editor editor;
-	public Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case 1:
-					Log.e("login", msg.getData().getString("code"));
-					if (msg.getData().getString("code").trim().equals("1")) {
-						Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-						intent.putExtra("username", name_edit.getText().toString());
-						startActivity(intent);
-						editor = preferences.edit();
-						if (remwd.isChecked()) {
-							editor.putString("username", name_edit.getText().toString().trim());
-							editor.putString("pwd", pwd_edit.getText().toString().trim());
-							editor.putBoolean("remember_password", true);
-							if (autologin.isChecked()) {
-								editor.putBoolean("autologin", true);
-							} else {
-								editor.putBoolean("autologin", false);
-							}
-						} else {
-							editor.clear();
-						}
-						editor.apply();
-						finish();
-					} else {
-						utils.showNormalDialog(LoginActivity.this, "用户不存在或密码错误");
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								name_edit.setText("");
-								pwd_edit.setText("");
-							}
-						});
-					}
-					break;
-			}
-			super.handleMessage(msg);
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +78,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.login_btn:
-				login();
+				String res = presenter.login(name_edit.getText().toString(),pwd_edit.getText().toString());
+				if (res.equals("1")) {
+					login();
+				} else {
+					utils.showNormalDialog(LoginActivity.this, "用户不存在或密码错误");
+					runOnUiThread(new Runnable() {
+						@Override
+						public void run() {
+							name_edit.setText("");
+							pwd_edit.setText("");
+						}
+					});
+				}
 				break;
 			case R.id.regist_btn:
 				Intent intent = new Intent(LoginActivity.this, RegistActivity.class);
@@ -144,20 +117,41 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	}
 
 	public void login() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Looper.prepare();
-				String code = presenter.login(name_edit.getText().toString(), pwd_edit.getText().toString());
-				Message message = new Message();
-				Bundle bundle = new Bundle();
-				bundle.putString("code", " " + code);
-				message.setData(bundle);
-				message.what = 1;
-				handler.sendMessage(message);
+		Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+		intent.putExtra("username", name_edit.getText().toString());
+		startActivity(intent);
+		editor = preferences.edit();
+		if (remwd.isChecked()) {
+			editor.putString("username", name_edit.getText().toString().trim());
+			editor.putString("pwd", pwd_edit.getText().toString().trim());
+			editor.putBoolean("remember_password", true);
+			if (autologin.isChecked()) {
+				editor.putBoolean("autologin", true);
+			} else {
+				editor.putBoolean("autologin", false);
 			}
-		}).start();
+		} else {
+			editor.clear();
+		}
+		editor.apply();
+		finish();
 	}
+
+//	public void login() {
+//		new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				Looper.prepare();
+//				String code = presenter.login(name_edit.getText().toString(), pwd_edit.getText().toString());
+//				Message message = new Message();
+//				Bundle bundle = new Bundle();
+//				bundle.putString("code", " " + code);
+//				message.setData(bundle);
+//				message.what = 1;
+//				handler.sendMessage(message);
+//			}
+//		}).start();
+//	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
