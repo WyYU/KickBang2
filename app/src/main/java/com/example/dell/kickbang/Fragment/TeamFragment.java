@@ -94,7 +94,6 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 		PlayerAdapter playerAdapter = new PlayerAdapter(getContext(), teammate, new PlayerAdapter.OnItemClickCallback() {
 			@Override
 			public void onClick(View view, Object info) {
-				
 			}
 
 			@Override

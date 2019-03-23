@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dell.kickbang.Activity.MainActivity;
+import com.example.dell.kickbang.Activity.TeamUserActActivity;
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
@@ -55,6 +56,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(context," click "+position,Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(context, TeamUserActActivity.class);
+				intent.putExtra("User",users.get(position));
+				context.startActivity(intent);
 			}
 		});
 	}
