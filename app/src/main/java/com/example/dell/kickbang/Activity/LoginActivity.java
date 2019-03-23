@@ -16,9 +16,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.dell.kickbang.Model.Team;
+import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.Presenter.Presenter;
 import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Utils.Utils;
+
+import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -118,6 +122,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 	public void login() {
 		Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+		try {
+			User user = presenter.queryUser(name_edit.getText().toString());
+			Team team = presenter.queryteam(String.valueOf(user.getTid()));
+			intent.putExtra("User",user);
+			intent.putExtra("Team",team);
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		intent.putExtra("username", name_edit.getText().toString());
 		startActivity(intent);
 		editor = preferences.edit();

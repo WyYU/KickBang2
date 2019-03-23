@@ -159,7 +159,6 @@ public class Presenter {
 				Call call = client.newCall(request);
 				Response response = call.execute();
 				String resjson = response.body().string();
-				System.out.println(resjson);
 				List<User> list1 = utils.jsontoUserlist(resjson);
 				return list1;
 			}

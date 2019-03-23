@@ -31,15 +31,15 @@ public class MainActivity extends AppCompatActivity {
 	private TabLayout tabLayout;
 	private ViewPager viewPager;
 	private List<android.support.v4.app.Fragment> list;
-//	User user;
-//	List<User> teammate;
-//	ArrayList<Field> fields;
+	User user;
+	List<User> teammate;
+	ArrayList<Field> fields;
 	Team team;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		presenter = new Presenter();
 		utils = Utils.getInstance();
-		res = new Resource();
+		res = Resource.getInstance();
 		httpUtils = HttpUtils.getHttpUtils();
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);

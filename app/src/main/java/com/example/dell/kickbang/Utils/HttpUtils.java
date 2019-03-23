@@ -12,7 +12,7 @@ public class HttpUtils {
 	private Resource res;
 
 	private HttpUtils() {
-		res = new Resource();
+		res = Resource.getInstance();
 	}
 	public static synchronized HttpUtils getHttpUtils(){
 		if (httpUtils == null){

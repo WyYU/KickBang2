@@ -1,12 +1,18 @@
 package com.example.dell.kickbang.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.dell.kickbang.Activity.MainActivity;
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
@@ -19,10 +25,15 @@ import java.util.List;
  */
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
+	private Context context;
+	private LayoutInflater mInflater;
+	private OnItemClickCallback callback = null;
 	Resource resource;
-	public PlayerAdapter(List<User> list){
+	public PlayerAdapter(Context context, List<User> list, OnItemClickCallback onItemClickCallback){
+		this.context = context;
 		this.users = list;
-		resource = new Resource();
+		this.callback = onItemClickCallback;
+		resource = Resource.getInstance();
 	}
 
 	private List<User> users;
@@ -34,12 +45,18 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 	}
 
 	@Override
-	public void onBindViewHolder(ViewHolder holder, int position) {
+	public void onBindViewHolder(ViewHolder holder, final int position) {
 		User user = users.get(position);
 		holder.username.setText("用户:"+user.getUsername());
 		holder.number.setText("号码:"+String.valueOf(user.getNum()));
 		holder.pos.setText("位置:"+user.getPosition());
 		holder.sImageView.setImageUrls(resource.LOCALOHST+user.getImagepatch());
+		holder.itemView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(context," click "+position,Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	@Override
@@ -60,4 +77,12 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 			sImageView = itemView.findViewById(R.id.player_image);
 		}
 	}
+	public interface OnItemClickCallback<T> {
+		// 点击事件
+		void onClick(View view , T info);
+		// 长按事件
+		void onLongClick(View view , T info);
+	}
+
+
 }

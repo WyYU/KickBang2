@@ -5,6 +5,14 @@ package com.example.dell.kickbang.Resours;
  */
 
 public class Resource {
+	private static Resource resource;
+	public static synchronized Resource getInstance(){
+		if (resource==null){
+			resource = new Resource();
+		}
+		return resource;
+	}
+	private Resource(){};
 	public final String LOCALOHST = "http://192.168.2.118:8080/";
 	public final String imagePath = "";
 	public final String AND = "&";
@@ -33,4 +41,5 @@ public class Resource {
 	public final String POS = "pos=";
 	public final String NUM = "num=";
 
+	public final int NULL_TEAM_CODE = 26;
 }

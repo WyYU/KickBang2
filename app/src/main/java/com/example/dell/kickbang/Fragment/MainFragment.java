@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.dell.kickbang.Activity.MainActivity;
 import com.example.dell.kickbang.Adapter.FieldAdapter;
 import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
@@ -73,7 +74,7 @@ public class MainFragment extends Fragment {
 	}
 
 	public void initTeamCard() {
-		if (user.getTid() ==26 ){
+		if (user.getTid() == resource.NULL_TEAM_CODE ){
 			teamnametextview.setText(" 无球队 请先加入！");
 			teamDataView.setText("别看了赶紧加个球队吧！");
 			teamcountView.setText("0");
@@ -86,9 +87,9 @@ public class MainFragment extends Fragment {
 	}
 
 	public void initUserCard() {
-		username.setText("  用户名："+user.getUsername());
+ 		username.setText("  用户名："+user.getUsername());
 		userid.setText("  id:"+user.getId());
-		if (user.getTid()==26){
+		if (user.getTid()==resource.NULL_TEAM_CODE){
 			teamTextView.setText("无");
 		}else {teamTextView.setText(team.getTname());}
 		goalTextView.setText(String.valueOf(user.getGoal()));
@@ -114,10 +115,9 @@ public class MainFragment extends Fragment {
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
-		resource = new Resource();
+		resource = Resource.getInstance();
 		presenter = new Presenter();
 		utils = Utils.getInstance();
-		res = new Resource();
 		httpUtils = HttpUtils.getHttpUtils();
 		super.onCreate(savedInstanceState);
 		prepareData();
@@ -125,14 +125,13 @@ public class MainFragment extends Fragment {
 
 	private void prepareData() {
 		Intent intent = getActivity().getIntent();
-		final String uname = intent.getStringExtra("username");
 		try {
-			user = presenter.queryUser(uname);
-			team = presenter.queryteam(String.valueOf(user.getTid()));
+			user = (User) intent.getSerializableExtra("User");
+			team = (Team) intent.getSerializableExtra("Team");
 			fields = (ArrayList<Field>) presenter.queryField();
 		} catch (Exception e) {
 			e.printStackTrace();
-			//utils.showNormalDialog(MainActivity.this, "数据初始化错误请检查网络！");
+			utils.showNormalDialog(getActivity(), "数据初始化错误请检查网络！");
 		}
 	}
 }
