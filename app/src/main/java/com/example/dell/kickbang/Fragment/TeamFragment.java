@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.dell.kickbang.Activity.SearchActivity;
 import com.example.dell.kickbang.Activity.TeamDynamicActivity;
+import com.example.dell.kickbang.Activity.TeamUserActActivity;
 import com.example.dell.kickbang.Adapter.PlayerAdapter;
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.Presenter.Presenter;
@@ -30,6 +31,7 @@ import java.util.List;
  */
 
 public class TeamFragment extends Fragment implements View.OnClickListener {
+	PlayerAdapter playerAdapter;
 	RecyclerView recyclerView;
 	Resource resource;
 	private View view;
@@ -38,6 +40,7 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 	ImageButton adduserBtn;
 	ImageButton SearchBtn;
 	ImageButton NotifcationBtn;
+	Presenter presenter;
 
 	@Override
 	public void onAttach(Context context) {
@@ -72,7 +75,7 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 	}
 
 	private void prepareData() {
-		Presenter presenter = new Presenter();
+		presenter = new Presenter(getActivity());
 		Intent intent = getActivity().getIntent();
 		try {
 			user = (User) intent.getSerializableExtra("User");
@@ -91,14 +94,13 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 		recyclerView = view.findViewById(R.id.player_recycler_view);
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 		recyclerView.setLayoutManager(linearLayoutManager);
-		PlayerAdapter playerAdapter = new PlayerAdapter(getContext(), teammate, new PlayerAdapter.OnItemClickCallback() {
+		playerAdapter = new PlayerAdapter(getContext(), teammate, new PlayerAdapter.OnItemClickCallback() {
 			@Override
-			public void onClick(View view, Object info) {
-			}
-
-			@Override
-			public void onLongClick(View view, Object info) {
-
+			public void onClick(View view, int position) {
+				Toast.makeText(getContext(),"  "+position,Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(getActivity(),TeamUserActActivity.class);
+				intent.putExtra("User",teammate.get(position));
+				startActivityForResult(intent,3);
 			}
 		});
 		recyclerView.setAdapter(playerAdapter);
@@ -121,5 +123,14 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 			default:
 				break;
 		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
+		Log.e(" sads",teammate.toString());
+		initView();
+		playerAdapter.notifyDataSetChanged();
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

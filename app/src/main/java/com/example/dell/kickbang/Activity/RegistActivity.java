@@ -23,7 +23,7 @@ public class RegistActivity extends AppCompatActivity implements View.OnClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_regist);
 		utils = Utils.getInstance();
-		presenter = new Presenter();
+		presenter = new Presenter(this);
 		initView();
 	}
 

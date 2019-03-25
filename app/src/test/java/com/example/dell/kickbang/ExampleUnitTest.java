@@ -19,15 +19,5 @@ public class ExampleUnitTest {
 	}
 	@Test
 	public  void Test(){
-		HttpUtils httpUtils = HttpUtils.getHttpUtils();
-//		System.out.println(httpUtils.getLoginurl("wyy","961213"));
-//		System.out.println(httpUtils.getRegistUrl("wyy","961213"));
-//		System.out.println(httpUtils.getQueryuserUrl("id","15"));
-//		System.out.println(httpUtils.getQueryTeamPlayerUrl("14"));
-//		System.out.println(httpUtils.getQueryTeamUrl("tname","111"));
-//		System.out.println(httpUtils.getQueryFieldUrl());
-//		System.out.println(httpUtils.getUPDATAMSGUrl("13","4","FORWARD"));
-//		System.out.println(httpUtils.getCreateTeamUrl("XXXXXXXXXXX"));
-//		System.out.println(httpUtils.getChangelvUrl("15","4"));
 	}
 }

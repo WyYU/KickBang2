@@ -1,5 +1,7 @@
 package com.example.dell.kickbang.Utils;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
@@ -46,6 +48,20 @@ public class Utils {
 				});
 		// 显示
 		normalDialog.show();
+	}
+
+	public AlertDialog.Builder showDelFromTeamDialog(Context context, String msg){
+		final AlertDialog.Builder normalDialog =
+				new AlertDialog.Builder(context);
+		normalDialog.setTitle("Alert");
+		normalDialog.setMessage(msg);
+		return normalDialog;
+	}
+
+	public ProgressDialog showProgressDialog(Context context,String msg){
+		ProgressDialog dialog = new ProgressDialog(context);
+		dialog.setMessage(msg);
+		return dialog;
 	}
 
 
@@ -156,4 +172,7 @@ public class Utils {
 		}
 		return list;
 	}
+
+
+
 }

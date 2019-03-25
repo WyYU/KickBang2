@@ -1,6 +1,5 @@
 package com.example.dell.kickbang.Activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -37,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 	Team team;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		presenter = new Presenter();
+		presenter = new Presenter(this);
 		utils = Utils.getInstance();
 		res = Resource.getInstance();
 		httpUtils = HttpUtils.getHttpUtils();

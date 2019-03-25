@@ -1,9 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.dell.kickbang.Activity.TeamUserActActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center_vertical|center"
+            android:orientation="horizontal">
+
+            <com.szysky.customize.siv.SImageView
+                android:id="@+id/player_act_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:img="@drawable/touxiang1"/>
+            </LinearLayout>
+        <TextView
+            android:id="@+id/u_uname_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textsize"
+            android:padding="5dp"
+            android:text="用户名"/>
+        <TextView
+            android:id="@+id/u_uteam_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="@dimen/textsize"
+            android:text="球队"/>
+        <TextView
+            android:id="@+id/u_goal_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="@dimen/textsize"
+            android:text="进球"/>
+        <TextView
+            android:id="@+id/u_ass_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="@dimen/textsize"
+            android:text="助攻"/>
+        <TextView
+            android:id="@+id/u_pos_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="@dimen/textsize"
+            android:text="位置"/>
+        <TextView
+            android:id="@+id/u_lv_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="@dimen/textsize"
+            android:text="球队角色"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addteamfab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@mipmap/ic_person_add_white_48dp"
+            app:backgroundTint="@color/colorAccent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/delfab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:paddingHorizontal="@dimen/cardview_compat_inset_shadow"
+            android:src="@mipmap/ic_close_white_48dp"
+            app:backgroundTint="@color/colorAccent" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/edifab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@mipmap/ic_create_white_48dp"
+            app:backgroundTint="@color/colorAccent" />
+    </LinearLayout>
+</LinearLayout>

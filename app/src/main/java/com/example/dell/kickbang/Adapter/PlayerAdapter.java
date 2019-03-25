@@ -25,7 +25,7 @@ import java.util.List;
  * Created by dell on 2019/3/21 0021.
  */
 
-public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
+public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> implements View.OnClickListener {
 	private Context context;
 	private LayoutInflater mInflater;
 	private OnItemClickCallback callback = null;
@@ -52,20 +52,29 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 		holder.number.setText("号码:"+String.valueOf(user.getNum()));
 		holder.pos.setText("位置:"+user.getPosition());
 		holder.sImageView.setImageUrls(resource.LOCALOHST+user.getImagepatch());
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context," click "+position,Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(context, TeamUserActActivity.class);
-				intent.putExtra("User",users.get(position));
-				context.startActivity(intent);
-			}
-		});
+		holder.itemView.setTag(position);
+		holder.itemView.setOnClickListener(this);
+//		holder.itemView.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				Toast.makeText(context," click "+position,Toast.LENGTH_SHORT).show();
+//				Intent intent = new Intent(context, TeamUserActActivity.class);
+//				intent.putExtra("User",users.get(position));
+//				context.startActivity(intent);
+//			}
+//		});
 	}
 
 	@Override
 	public int getItemCount() {
 		return users.size();
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (callback !=null) {
+			callback.onClick(v, (Integer) v.getTag());
+		}
 	}
 
 	static class ViewHolder extends RecyclerView.ViewHolder {
@@ -81,12 +90,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 			sImageView = itemView.findViewById(R.id.player_image);
 		}
 	}
-	public interface OnItemClickCallback<T> {
+	public interface OnItemClickCallback<User> {
 		// 点击事件
-		void onClick(View view , T info);
+		void onClick(View view , int position);
 		// 长按事件
-		void onLongClick(View view , T info);
 	}
 
+	public void setOnItemClickListentr(OnItemClickCallback listentr){
+		this.callback = listentr;
+	}
 
 }

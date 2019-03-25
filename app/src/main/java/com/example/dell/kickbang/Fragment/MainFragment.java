@@ -116,7 +116,7 @@ public class MainFragment extends Fragment {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		resource = Resource.getInstance();
-		presenter = new Presenter();
+		presenter = new Presenter(getActivity());
 		utils = Utils.getInstance();
 		httpUtils = HttpUtils.getHttpUtils();
 		super.onCreate(savedInstanceState);

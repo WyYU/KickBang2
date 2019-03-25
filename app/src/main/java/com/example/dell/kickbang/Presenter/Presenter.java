@@ -1,11 +1,14 @@
 package com.example.dell.kickbang.Presenter;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.dell.kickbang.Activity.LoginActivity;
 import com.example.dell.kickbang.Model.Field;
@@ -44,29 +47,12 @@ public class Presenter {
 	Handler handler;
 	public String registres;
 	private ThreadPoolExecutor threadPoolService;
-
-	public Presenter(){
+	private Context context;
+	public Presenter(Context context){
 		utils = Utils.getInstance();
 		httpUtils = HttpUtils.getHttpUtils();
 		client = MyClient.getInstance();
 	}
-//	public String login(String uname,String pwd){
-//		String loginurl = httpUtils.getLoginurl(uname,pwd);
-//		String res = "0";
-//		Request request = new Request.Builder().url(loginurl).build();
-//		Log.e("",loginurl);
-//		try {
-//			Response response = client.newCall(request).execute();
-//			String result = response.body().string();
-//			JSONObject jsonObject = new JSONObject(result);
-//			res = jsonObject.getString("result");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//		return res;
-//	}
 
 	public String  regist(final String uname, final String pwd) {
 
@@ -140,7 +126,8 @@ public class Presenter {
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
-					//utils.showNormalDialog(MainActivity.this,"初始化信息失败，请检查网络");
+					utils.showNormalDialog(context,"初始化信息失败，请检查网络");
+					return null;
 				}
 				return team;
 			}
@@ -196,23 +183,60 @@ public class Presenter {
 		return null;
 	}
 
-	public String login(final String username, final String password){
+	public String login(final String username, final String password){ 
 		threadPoolService = ThreadPoolService.getInstance();
 		Future<String> future = threadPoolService.submit(new Callable<String>() {
 			@Override
 			public String call() throws Exception {
-				String loginurl = httpUtils.getLoginurl(username,password);
-				Request request = new Request.Builder().url(loginurl).build();
-				Call call = client.newCall(request);
-				Response response = call.execute();
-				String resjson = response.body().string();
-				JSONObject jsonObject = new JSONObject(resjson);
-				String result = jsonObject.getString("result");
+				String result;
+				try {
+					String loginurl = httpUtils.getLoginurl(username, password);
+					Request request = new Request.Builder().url(loginurl).build();
+					Call call = client.newCall(request);
+					Response response = call.execute();
+					String resjson = response.body().string();
+					JSONObject jsonObject = new JSONObject(resjson);
+					result = jsonObject.getString("result");
+				} catch (Exception e){
+					e.printStackTrace();
+					return "0";
+				}
 				return result;
 			}
 		});
 		try {
 			return future.get().toString();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return "0";
+	}
+
+	public String removeuser(final int id) {
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				String result ;
+				try {
+					String removeuserurl = httpUtils.getJoinTeamUrl(String.valueOf(id),String.valueOf(26));
+					Request request = new Request.Builder().url(removeuserurl).build();
+					Call call = client.newCall(request);
+					Response response = call.execute();
+					String res = response.body().string();
+					JSONObject jsonObject = new JSONObject(res);
+					result = jsonObject.getString("result");
+					Log.e("",removeuserurl);
+					return result;
+				}catch (Exception e) {
+					return "0";
+				}
+			}
+		});
+		try {
+			return future.get();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {

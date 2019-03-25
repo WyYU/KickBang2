@@ -37,6 +37,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	private int REQUESTCODE = 1;
 	private SharedPreferences preferences;
 	private SharedPreferences.Editor editor;
+	User user;
+	Team team;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	}
 
 	private void init() {
-		presenter = new Presenter();
+		presenter = new Presenter(this);
 		utils = Utils.getInstance();
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 	}
@@ -123,8 +125,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	public void login() {
 		Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 		try {
-			User user = presenter.queryUser(name_edit.getText().toString());
-			Team team = presenter.queryteam(String.valueOf(user.getTid()));
+			user = presenter.queryUser(name_edit.getText().toString());
+			team = presenter.queryteam(String.valueOf(user.getTid()));
 			intent.putExtra("User",user);
 			intent.putExtra("Team",team);
 		} catch (ExecutionException e) {
@@ -147,6 +149,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 		} else {
 			editor.clear();
 		}
+		editor.putString("usertid", String.valueOf(user.getTid()));
+		editor.putString("userlv", String.valueOf(user.getLevel()));
 		editor.apply();
 		finish();
 	}
