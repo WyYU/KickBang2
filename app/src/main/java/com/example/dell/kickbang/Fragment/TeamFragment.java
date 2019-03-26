@@ -127,10 +127,13 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
-		Log.e(" sads",teammate.toString());
-		initView();
-		playerAdapter.notifyDataSetChanged();
+		if (resultCode ==3) {
+			teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
+			Log.e(" sads",teammate.toString());
+			initView();
+			playerAdapter.notifyDataSetChanged();
+
+		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

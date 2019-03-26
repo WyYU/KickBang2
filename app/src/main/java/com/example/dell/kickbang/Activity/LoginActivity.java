@@ -20,6 +20,7 @@ import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.Presenter.Presenter;
 import com.example.dell.kickbang.R;
+import com.example.dell.kickbang.Utils.PreferencesFactory;
 import com.example.dell.kickbang.Utils.Utils;
 
 import java.util.concurrent.ExecutionException;
@@ -51,7 +52,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	private void init() {
 		presenter = new Presenter(this);
 		utils = Utils.getInstance();
-		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		preferences = PreferencesFactory.getInstance(this);
+		Log.e("Prefer",preferences.getAll().toString());
 	}
 
 	private void initView() {
@@ -147,7 +149,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 				editor.putBoolean("autologin", false);
 			}
 		} else {
-			editor.clear();
+			editor.putString("username","");
+			editor.putString("pwd", "");
+			editor.putBoolean("remember_password",false);
+			editor.putBoolean("autologin",false);
 		}
 		editor.putString("usertid", String.valueOf(user.getTid()));
 		editor.putString("userlv", String.valueOf(user.getLevel()));

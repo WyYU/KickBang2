@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.dell.kickbang.Adapter.TabAdapter;
 import com.example.dell.kickbang.Fragment.MainFragment;
+import com.example.dell.kickbang.Fragment.MyInfoFragment;
 import com.example.dell.kickbang.Fragment.TeamFragment;
 import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
 		tabLayout.getTabAt(0).setText("主页").setIcon(R.mipmap.ic_explore_white_48dp);
 		tabLayout.getTabAt(1).setText("球队").setIcon(R.mipmap.ic_people_white_48dp);
 		tabLayout.getTabAt(2).setText("我的").setIcon(R.mipmap.ic_account_circle_white_48dp);
-		tabLayout.setBackgroundColor(Color.GREEN);
 		tabLayout.setSelectedTabIndicatorColor(Color.BLACK);
 	}
 
@@ -71,21 +71,7 @@ public class MainActivity extends AppCompatActivity {
 		list = new ArrayList<>();
 		list.add(new MainFragment());
 		list.add(new TeamFragment());
-		list.add(new TeamFragment());
+		list.add(new MyInfoFragment());
 	}
-
-//	private void prepareData() {
-//		Intent intent = getIntent();
-//		final String uname = intent.getStringExtra("username");
-//		try {
-//			user = presenter.queryUser(uname);
-//			team = presenter.queryteam(String.valueOf(user.getTid()));
-//			fields = (ArrayList<Field>) presenter.queryField();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			//utils.showNormalDialog(MainActivity.this, "数据初始化错误请检查网络！");
-//		}
-//
-//	}
 
 }
