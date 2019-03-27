@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.example.dell.kickbang.Activity.EditinfoActivity;
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
@@ -28,6 +30,7 @@ public class MyInfoFragment extends Fragment {
 	SImageView head;
 	ImageView back;
 	Resource resource;
+	TextView edittext;
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,11 +48,19 @@ public class MyInfoFragment extends Fragment {
 	}
 
 	private void initView() {
+		edittext = view.findViewById(R.id.u_info_edit);
 		head = view.findViewById(R.id.h_head);
 		back = view.findViewById(R.id.h_back);
 		head.setImageUrls(resource.LOCALOHST+user.getImagepatch());;
 		Glide.with(getActivity()).load(R.drawable.touxiang1).bitmapTransform(new BlurTransformation(getActivity(),25),new CenterCrop(getActivity())).into(back);
-
+		edittext.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), EditinfoActivity.class);
+				intent.putExtra("EditUser",user);
+				startActivity(intent);
+			}
+		});
 	}
 
 }

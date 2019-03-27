@@ -2,6 +2,7 @@ package com.example.dell.kickbang.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,9 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -23,6 +27,7 @@ import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.Presenter.Presenter;
 import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
+import com.example.dell.kickbang.Utils.PreferencesFactory;
 
 import java.util.List;
 
@@ -30,7 +35,7 @@ import java.util.List;
  * Created by dell on 2019/3/20 0020.
  */
 
-public class TeamFragment extends Fragment implements View.OnClickListener {
+public class TeamFragment extends Fragment implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 	PlayerAdapter playerAdapter;
 	RecyclerView recyclerView;
 	Resource resource;
@@ -41,7 +46,9 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 	ImageButton SearchBtn;
 	ImageButton NotifcationBtn;
 	Presenter presenter;
-
+	SharedPreferences preferences;
+	private String ulv;
+	private String utid;
 	@Override
 	public void onAttach(Context context) {
 		Log.e(getClass().getName(),"onAttach");
@@ -51,7 +58,11 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		Log.e(getClass().getName(),"onCreate");
+		preferences = PreferencesFactory.getInstance(getActivity());
+		ulv = preferences.getString("userlv","0");
+		utid = preferences.getString("usertid","26");
 		super.onCreate(savedInstanceState);
+
 	}
 
 	@Nullable
@@ -79,8 +90,9 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 		Intent intent = getActivity().getIntent();
 		try {
 			user = (User) intent.getSerializableExtra("User");
-			if (user.getTid() != resource.NULL_TEAM_CODE) {
-				teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
+			teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
+			if (user.getTid() == resource.NULL_TEAM_CODE) {
+				teammate.clear();
 			}
 		}catch (Exception e){
 
@@ -104,12 +116,18 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 			}
 		});
 		recyclerView.setAdapter(playerAdapter);
+		adduserBtn.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()){
 			case R.id.adduser_btn:
+				PopupMenu menu = new PopupMenu(getActivity(),v);
+				MenuInflater inflater = menu.getMenuInflater();
+				inflater.inflate(R.menu.main,menu.getMenu());
+				menu.setOnMenuItemClickListener(this);
+				menu.show();
 				break;
 			case R.id.search_button:
 				Intent intent = new Intent(getContext(), SearchActivity.class);
@@ -135,5 +153,20 @@ public class TeamFragment extends Fragment implements View.OnClickListener {
 
 		}
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		switch (item.getItemId()){
+			case R.id.addplayer:
+				if (Integer.parseInt(utid)==26){
+					Toast.makeText(getActivity(),"你还没有球队",Toast.LENGTH_SHORT).show();
+					return false;
+				}
+				if (Integer.parseInt(ulv)<3){
+					Toast.makeText(getActivity(),"您的等级不够",Toast.LENGTH_SHORT).show();
+				}
+		}
+		return false;
 	}
 }

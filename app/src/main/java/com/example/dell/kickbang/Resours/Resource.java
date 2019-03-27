@@ -28,6 +28,8 @@ public class Resource {
 	public final String UPDATAMSG = "updatamsg?";
 	public final String CTEATETEAM = "createteam?";
 	public final String QUERYFIELD = "queryfield";
+	public static final String UPDATAHEAD = "updatahead";
+
 
 	public final String USERNAME = "username=";
 	public final String PASSWORD = "pwd=";

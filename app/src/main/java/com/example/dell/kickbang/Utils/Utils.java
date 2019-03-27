@@ -1,12 +1,18 @@
 package com.example.dell.kickbang.Utils;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import com.example.dell.kickbang.Activity.EditinfoActivity;
 import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
@@ -57,6 +63,14 @@ public class Utils {
 		normalDialog.setMessage(msg);
 		return normalDialog;
 	}
+
+	public AlertDialog.Builder buildChooseHeadDialog(final Context context, final EditinfoActivity editinfoActivity){
+		final AlertDialog.Builder normalDialog =
+				new AlertDialog.Builder(context);
+		normalDialog.setTitle("修改头像");
+		return normalDialog;
+	}
+
 
 	public ProgressDialog showProgressDialog(Context context,String msg){
 		ProgressDialog dialog = new ProgressDialog(context);

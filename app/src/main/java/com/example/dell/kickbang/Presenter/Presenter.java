@@ -1,20 +1,15 @@
 package com.example.dell.kickbang.Presenter;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.dell.kickbang.Activity.LoginActivity;
 import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
-import com.example.dell.kickbang.Resours.Resource;
 import com.example.dell.kickbang.Utils.HttpUtils;
 import com.example.dell.kickbang.Utils.MyClient;
 import com.example.dell.kickbang.Utils.ThreadPoolService;
@@ -23,7 +18,12 @@ import com.example.dell.kickbang.Utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -31,8 +31,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -40,11 +43,12 @@ import okhttp3.Response;
  */
 
 public class Presenter {
+	private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
 	private String TAG = "Presenter";
-	HttpUtils httpUtils;
-	Utils utils;
-	OkHttpClient client;
-	Handler handler;
+	private HttpUtils httpUtils;
+	private Utils utils;
+	private OkHttpClient client;
+	private Handler handler;
 	public String registres;
 	private ThreadPoolExecutor threadPoolService;
 	private Context context;
@@ -243,5 +247,44 @@ public class Presenter {
 			e.printStackTrace();
 		}
 		return "0";
+	}
+
+	public void updataheadimage(final String uid, final Bitmap bitmap) {
+		threadPoolService = ThreadPoolService.getInstance();
+		final File file = getFile(bitmap);
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG,file);
+				RequestBody requestBody = new MultipartBody.Builder()
+						.setType(MultipartBody.FORM)
+						.addFormDataPart("file","testImage.png",fileBody)
+						.build();
+				Request request = new Request.Builder().url(httpUtils.getuploadheadimage(uid)).post(requestBody).build();
+				Response response = client.newCall(request).execute();
+				Log.e("response",response.body().string());
+				return null;
+			}
+		});
+	}
+
+	public File getFile(Bitmap bitmap) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+		File file = new File(Environment.getExternalStorageDirectory() + "/temp.jpg");
+		try {
+			file.createNewFile();
+			FileOutputStream fos = new FileOutputStream(file);
+			InputStream is = new ByteArrayInputStream(baos.toByteArray());
+			int x = 0;
+			byte[] b = new byte[1024 * 100];
+			while ((x = is.read(b)) != -1) {
+				fos.write(b, 0, x);
+			}
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return file;
 	}
 }

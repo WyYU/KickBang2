@@ -30,7 +30,8 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 	private LayoutInflater mInflater;
 	private OnItemClickCallback callback = null;
 	Resource resource;
-	public PlayerAdapter(Context context, List<User> list, OnItemClickCallback onItemClickCallback){
+
+	public PlayerAdapter(Context context, List<User> list, OnItemClickCallback onItemClickCallback) {
 		this.context = context;
 		this.users = list;
 		this.callback = onItemClickCallback;
@@ -38,9 +39,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 	}
 
 	private List<User> users;
+
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item,parent,false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_item, parent, false);
 		ViewHolder holder = new ViewHolder(view);
 		return holder;
 	}
@@ -48,10 +50,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 	@Override
 	public void onBindViewHolder(ViewHolder holder, final int position) {
 		User user = users.get(position);
-		holder.username.setText("用户:"+user.getUsername());
-		holder.number.setText("号码:"+String.valueOf(user.getNum()));
-		holder.pos.setText("位置:"+user.getPosition());
-		holder.sImageView.setImageUrls(resource.LOCALOHST+user.getImagepatch());
+		holder.username.setText("用户:" + user.getUsername());
+		holder.number.setText("号码:" + String.valueOf(user.getNum()));
+		holder.pos.setText("位置:" + user.getPosition());
+		holder.sImageView.setImageUrls(resource.LOCALOHST + user.getImagepatch());
 		holder.itemView.setTag(position);
 		holder.itemView.setOnClickListener(this);
 //		holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,16 +74,17 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
 	@Override
 	public void onClick(View v) {
-		if (callback !=null) {
+		if (callback != null) {
 			callback.onClick(v, (Integer) v.getTag());
 		}
 	}
 
 	static class ViewHolder extends RecyclerView.ViewHolder {
-		SImageView sImageView ;
+		SImageView sImageView;
 		TextView username;
 		TextView pos;
 		TextView number;
+
 		public ViewHolder(View itemView) {
 			super(itemView);
 			username = itemView.findViewById(R.id.team_playrename_textiview);
@@ -90,13 +93,14 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 			sImageView = itemView.findViewById(R.id.player_image);
 		}
 	}
+
 	public interface OnItemClickCallback<User> {
 		// 点击事件
-		void onClick(View view , int position);
+		void onClick(View view, int position);
 		// 长按事件
 	}
 
-	public void setOnItemClickListentr(OnItemClickCallback listentr){
+	public void setOnItemClickListentr(OnItemClickCallback listentr) {
 		this.callback = listentr;
 	}
 
