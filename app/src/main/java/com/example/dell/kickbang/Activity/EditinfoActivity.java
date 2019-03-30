@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.example.dell.kickbang.Utils.Utils;
 import com.szysky.customize.siv.SImageView;
 
 public class EditinfoActivity extends AppCompatActivity implements View.OnClickListener {
+	private final int CHANGERESULT = 2;
 	private User u;
 	private Utils utils;
 	private SImageView sImageView;
@@ -41,6 +43,9 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 	private AlertDialog.Builder builder;
 	private final int CHOOSE_PHOTO = 2;
 	private Bitmap bitmap;
+	Button Confi_btn;
+	Button Cancle_btn;
+	private String imagePath;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,12 +60,16 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 
 	private void initEvent() {
 		sImageView.setOnClickListener(this);
+		Confi_btn.setOnClickListener(this);
+		Cancle_btn.setOnClickListener(this);
 	}
 
 	private void initView() {
 		posEdit = findViewById(R.id.user_pos_edit);
 		numedit = findViewById(R.id.user_num_edit);
 		sImageView = findViewById(R.id.user_head_image);
+		Confi_btn = findViewById(R.id.edit_conf_btn);
+		Cancle_btn = findViewById(R.id.edit_cancel_btn);
 		posEdit.setText(u.getPosition());
 		numedit.setText(u.getNum().toString());
 		sImageView.setImageUrls(resource.LOCALOHST+u.getImagepatch());
@@ -94,6 +103,15 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 				buildDialog();
 				builder.show();
 				break;
+			case R.id.edit_cancel_btn:
+				finish();
+				break;
+			case R.id.edit_conf_btn:
+				updataimage(imagePath, String.valueOf(u.getId()));
+				Intent i = new Intent();
+				i.putExtra("result",CHANGERESULT);
+				setResult(RESULT_OK,i);
+				finish();
 		}
 	}
 	private void openAlbun() {
@@ -115,7 +133,7 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 	}
 
 	private void handleImageonKitKat(Intent data) {
-		String imagePath = null;
+		imagePath = null;
 		Uri uri = data.getData();
 		if (DocumentsContract.isDocumentUri(this,uri)){
 			String docid = DocumentsContract.getDocumentId(uri);
@@ -133,7 +151,6 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 			}
 		}
 		displayimage(imagePath);
-		updataimage(imagePath, String.valueOf(u.getId()));
 	}
 
 	private void updataimage(String imagePath,String uid) {

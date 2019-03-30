@@ -128,6 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 		Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 		try {
 			user = presenter.queryUser(name_edit.getText().toString());
+			Log.e("AAAAAAAA",user.toString());
 			team = presenter.queryteam(String.valueOf(user.getTid()));
 			intent.putExtra("User",user);
 			intent.putExtra("Team",team);

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.dell.kickbang.Activity.LoginActivity;
 import com.example.dell.kickbang.Activity.MainActivity;
 import com.example.dell.kickbang.Adapter.FieldAdapter;
 import com.example.dell.kickbang.Model.Field;
@@ -95,6 +96,9 @@ public class MainFragment extends Fragment {
 		goalTextView.setText(String.valueOf(user.getGoal()));
 		assTextview.setText(String.valueOf(user.getAssisting()));
 		String imageurl = resource.LOCALOHST+user.getImagepatch();
+		for (int i = 0;i<imageView.mUrlLoading.size();i++){
+			Log.e("aaaaaaaaa",imageView.mUrlLoading.get(i).toString());
+		}
 		imageView.setImageUrls(imageurl);
 	}
 
@@ -127,6 +131,7 @@ public class MainFragment extends Fragment {
 		Intent intent = getActivity().getIntent();
 		try {
 			user = (User) intent.getSerializableExtra("User");
+			Log.e("",user.toString());
 			team = (Team) intent.getSerializableExtra("Team");
 			fields = (ArrayList<Field>) presenter.queryField();
 		} catch (Exception e) {

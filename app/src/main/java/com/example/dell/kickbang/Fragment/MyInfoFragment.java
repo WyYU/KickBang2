@@ -1,18 +1,22 @@
 package com.example.dell.kickbang.Fragment;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.dell.kickbang.Activity.EditinfoActivity;
+import com.example.dell.kickbang.Activity.LoginActivity;
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
@@ -25,12 +29,15 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  */
 
 public class MyInfoFragment extends Fragment {
+	private final int EDIT = 2;
 	User user ;
 	View view;
 	SImageView head;
+	ImageView imageView;
 	ImageView back;
 	Resource resource;
 	TextView edittext;
+	Button exitButton;
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,19 +55,45 @@ public class MyInfoFragment extends Fragment {
 	}
 
 	private void initView() {
+		head = null;
+		exitButton = view.findViewById(R.id.exit_btn);
 		edittext = view.findViewById(R.id.u_info_edit);
 		head = view.findViewById(R.id.h_head);
+		head.mUrlLoading.clear();
 		back = view.findViewById(R.id.h_back);
-		head.setImageUrls(resource.LOCALOHST+user.getImagepatch());;
+		head.setImageUrls(resource.LOCALOHST+user.getImagepatch());
 		Glide.with(getActivity()).load(R.drawable.touxiang1).bitmapTransform(new BlurTransformation(getActivity(),25),new CenterCrop(getActivity())).into(back);
 		edittext.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getActivity(), EditinfoActivity.class);
 				intent.putExtra("EditUser",user);
+				startActivityForResult(intent,EDIT);
+			}
+		});
+		exitButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(),LoginActivity.class);
 				startActivity(intent);
+				getActivity().finish();
 			}
 		});
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.e("result", String.valueOf(requestCode));
+		switch (requestCode) {
+			case EDIT:
+				if (resultCode == -1)
+				{
+				Log.e(MyInfoFragment.this.toString(),"updatagead");
+				head.mUrlLoading.clear();
+				head.setImageUrls(user.getImagepatch());
+				}
+				break;
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 }

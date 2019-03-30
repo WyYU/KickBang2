@@ -51,7 +51,7 @@ public class HttpUtils {
 	public final String getCreateTeamUrl(String tname){
 		return res.LOCALOHST+res.CTEATETEAM+res.TNAME+tname;
 	}
-	public final String getuploadheadimage(String uname){
-		return res.LOCALOHST+res.UPDATAHEAD;
+	public final String getuploadheadimage(String uid){
+		return res.LOCALOHST+res.UPDATAHEAD+"?uid="+uid;
 	}
 }

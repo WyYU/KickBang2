@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
@@ -31,6 +33,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -43,6 +46,7 @@ import okhttp3.Response;
  */
 
 public class Presenter {
+	private static final MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
 	private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
 	private String TAG = "Presenter";
 	private HttpUtils httpUtils;
@@ -253,17 +257,29 @@ public class Presenter {
 		threadPoolService = ThreadPoolService.getInstance();
 		final File file = getFile(bitmap);
 		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			String result;
 			@Override
 			public String call() throws Exception {
-				RequestBody fileBody = RequestBody.create(MEDIA_TYPE_PNG,file);
+				RequestBody fileBody = RequestBody.create(MEDIA_TYPE_JPG,file);
 				RequestBody requestBody = new MultipartBody.Builder()
 						.setType(MultipartBody.FORM)
-						.addFormDataPart("file","testImage.png",fileBody)
+						.addFormDataPart("file","testImage.jpg",fileBody)
 						.build();
 				Request request = new Request.Builder().url(httpUtils.getuploadheadimage(uid)).post(requestBody).build();
+				Call call = client.newCall(request);
+				call.enqueue(new Callback() {
+					@Override
+					public void onFailure(Call call, IOException e) {
+						Toast.makeText(context,"网络连接失败！",Toast.LENGTH_LONG).show();
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						result = "1";
+					}
+				});
 				Response response = client.newCall(request).execute();
-				Log.e("response",response.body().string());
-				return null;
+				return result;
 			}
 		});
 	}

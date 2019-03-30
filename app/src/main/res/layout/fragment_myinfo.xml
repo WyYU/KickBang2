@@ -145,6 +145,7 @@
                     android:src="@mipmap/ic_chevron_right_grey600_48dp" />
             </LinearLayout>
             <Button
+                android:id="@+id/exit_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
