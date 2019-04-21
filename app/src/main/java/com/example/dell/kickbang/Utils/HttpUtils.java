@@ -54,4 +54,11 @@ public class HttpUtils {
 	public final String getuploadheadimage(String uid){
 		return res.LOCALOHST+res.UPDATAHEAD+"?uid="+uid;
 	}
+	public final String getteamnotifi(String uid){
+		return res.LOCALOHST+res.UPDATANOTIFI+"tid="+uid;
+		}
+	public final String getteamnotifinum(String tid ,String lid ){
+		return res.LOCALOHST+res.GETNOTIFINUM+res.TID+tid+res.AND+res.LID+lid;
+	}
+
 }

@@ -69,7 +69,6 @@ public class MainFragment extends Fragment {
 	}
 
 	private void initFieldCard() {
-		Log.e("   ",fields.toString());
 		FieldAdapter fieldAdapter = new FieldAdapter(getContext(),R.layout.field_item,fields);
 		fieldLIstView.setAdapter(fieldAdapter);
 	}

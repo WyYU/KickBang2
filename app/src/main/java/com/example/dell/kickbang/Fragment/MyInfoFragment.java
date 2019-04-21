@@ -88,7 +88,6 @@ public class MyInfoFragment extends Fragment {
 			case EDIT:
 				if (resultCode == -1)
 				{
-				Log.e(MyInfoFragment.this.toString(),"updatagead");
 				head.mUrlLoading.clear();
 				head.setImageUrls(user.getImagepatch());
 				}

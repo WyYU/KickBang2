@@ -57,7 +57,6 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
-		Log.e(getClass().getName(),"onCreate");
 		preferences = PreferencesFactory.getInstance(getActivity());
 		ulv = preferences.getString("userlv","0");
 		utid = preferences.getString("usertid","26");
@@ -68,7 +67,6 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		Log.e(getClass().getName(),"onCreateView");
 		view = inflater.inflate(R.layout.fragment_team, null);
 		resource = Resource.getInstance();
 		if (user ==null || teammate ==null){

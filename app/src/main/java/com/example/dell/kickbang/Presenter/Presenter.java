@@ -56,6 +56,7 @@ public class Presenter {
 	public String registres;
 	private ThreadPoolExecutor threadPoolService;
 	private Context context;
+
 	public Presenter(Context context){
 		utils = Utils.getInstance();
 		httpUtils = HttpUtils.getHttpUtils();
@@ -302,5 +303,57 @@ public class Presenter {
 			e.printStackTrace();
 		}
 		return file;
+	}
+
+	public String getTeamNoti(final String tid) {
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				String res;
+				String querySQL  = httpUtils.getteamnotifi(tid);
+				Request request = new Request.Builder().url(querySQL).build();
+				Call call = client.newCall(request);
+				Response response = call.execute();
+				res = response.body().toString();
+				Log.e("asdsadsad",response.body().string());
+				return res;
+			}
+		});
+		try {
+			return future.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public String getTeamNotinum(final String tid , final String lastid){
+		final String res;
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				String url = httpUtils.getteamnotifinum(String.valueOf(tid),lastid);
+				Request request = new Request.Builder().url(url).build();
+				Call call = client.newCall(request);
+				Response response = call.execute();
+				String res = response.body().string();
+				JSONObject jsonObject = new JSONObject(res);
+				String resultcode = jsonObject.getString("code");
+				String num = jsonObject.getString("num");
+				return num;
+			}
+		});
+		try {
+			return future.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return "0";
 	}
 }
