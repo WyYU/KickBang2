@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.example.dell.kickbang.Activity.EditinfoActivity;
 import com.example.dell.kickbang.Model.Field;
+import com.example.dell.kickbang.Model.Notification;
 import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
 
@@ -187,6 +188,26 @@ public class Utils {
 		return list;
 	}
 
+	public List<Notification> jsontoNoti(String json){
+		List<Notification> list = new ArrayList<>();
+		try {
+			JSONArray jsonArray = new JSONArray(json);
+			for (int i = 0 ; i<jsonArray.length();i++){
+				Notification notification = new Notification();
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				String data = jsonObject.getString("Data");
+				String context = jsonObject.getString("Context");
+				String nid = jsonObject.getString("nid");
+				notification.setData(Date.valueOf(data));
+				notification.setContext(context);
+				notification.setId(Integer.parseInt(nid));
+				list.add(notification);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 
 }

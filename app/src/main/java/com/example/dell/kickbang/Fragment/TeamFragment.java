@@ -133,7 +133,7 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 				break;
 			case R.id.Notification_btn:
 				Intent intent1 = new Intent(getContext(), TeamDynamicActivity.class);
-				startActivity(intent1);
+				startActivityForResult(intent1,4);
 				Toast.makeText(getContext(),"球队通知",Toast.LENGTH_SHORT).show();
 				break;
 			default:

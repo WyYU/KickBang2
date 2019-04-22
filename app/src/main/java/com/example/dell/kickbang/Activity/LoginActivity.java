@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+	private String TAG = "LoginActivity";
 	Presenter presenter;
 	Utils utils;
 	private EditText name_edit;
@@ -88,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 			case R.id.login_btn:
 				String res = presenter.login(name_edit.getText().toString(),pwd_edit.getText().toString());
 				if (res.equals("1")) {
+					Log.e(TAG,res);
 					login();
 				} else {
 					utils.showNormalDialog(LoginActivity.this, "用户不存在或密码错误");

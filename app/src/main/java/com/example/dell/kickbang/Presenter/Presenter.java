@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.dell.kickbang.Model.Field;
+import com.example.dell.kickbang.Model.Notification;
 import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.Utils.HttpUtils;
@@ -26,6 +27,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -305,19 +308,21 @@ public class Presenter {
 		return file;
 	}
 
-	public String getTeamNoti(final String tid) {
+	public List<Notification> getTeamNoti(final String tid) {
 		threadPoolService = ThreadPoolService.getInstance();
-		Future<String> future = threadPoolService.submit(new Callable<String>() {
+		Future<List<Notification>> future = threadPoolService.submit(new Callable<List<Notification>>() {
 			@Override
-			public String call() throws Exception {
+			public List<Notification> call() throws Exception {
 				String res;
+				List<Notification> list;
 				String querySQL  = httpUtils.getteamnotifi(tid);
 				Request request = new Request.Builder().url(querySQL).build();
 				Call call = client.newCall(request);
 				Response response = call.execute();
-				res = response.body().toString();
-				Log.e("asdsadsad",response.body().string());
-				return res;
+				res = response.body().string();
+				Log.e(TAG,res);
+				list = utils.jsontoNoti(res);
+				return list;
 			}
 		});
 		try {
@@ -327,7 +332,7 @@ public class Presenter {
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<>();
 	}
 
 	public String getTeamNotinum(final String tid , final String lastid){
@@ -356,4 +361,5 @@ public class Presenter {
 		}
 		return "0";
 	}
+
 }
