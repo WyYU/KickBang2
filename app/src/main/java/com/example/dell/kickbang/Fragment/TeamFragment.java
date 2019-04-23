@@ -19,6 +19,7 @@ import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.dell.kickbang.Activity.MainActivity;
 import com.example.dell.kickbang.Activity.SearchActivity;
 import com.example.dell.kickbang.Activity.TeamDynamicActivity;
 import com.example.dell.kickbang.Activity.TeamUserActActivity;
@@ -27,6 +28,7 @@ import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.Presenter.Presenter;
 import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
+import com.example.dell.kickbang.Service.MyService;
 import com.example.dell.kickbang.Utils.PreferencesFactory;
 
 import java.util.List;
@@ -36,6 +38,7 @@ import java.util.List;
  */
 
 public class TeamFragment extends Fragment implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+	private final String  TAG = "TeamFragment";
 	PlayerAdapter playerAdapter;
 	RecyclerView recyclerView;
 	Resource resource;
@@ -142,18 +145,6 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode ==3) {
-			teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
-			Log.e(" sads",teammate.toString());
-			initView();
-			playerAdapter.notifyDataSetChanged();
-
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
 	public boolean onMenuItemClick(MenuItem item) {
 		switch (item.getItemId()){
 			case R.id.addplayer:
@@ -167,4 +158,17 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 		}
 		return false;
 	}
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.e("ASSSSSSSSSSSSSSSSSSSSSSSSSS","requestCode "+requestCode+"resultcode "+resultCode);
+		switch (resultCode) {
+			case 3:
+				teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
+				Log.e(" sads",teammate.toString());
+				initView();
+				playerAdapter.notifyDataSetChanged();
+				break;
+		}
+	}
+
 }
