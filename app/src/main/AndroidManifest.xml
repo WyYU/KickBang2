@@ -14,8 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity
-            android:name=".Activity.MainActivity"/>
+        <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +27,13 @@
         <activity android:name=".Activity.CreateNewTeamActivity" />
         <activity android:name=".Activity.SearchActivity" />
         <activity android:name=".Activity.TeamDynamicActivity" />
-        <activity android:name=".Activity.EditinfoActivity"/>
-        <service android:name=".Service.MyService"></service>
+        <activity android:name=".Activity.EditinfoActivity" />
+
+        <service android:name=".Service.MyService" />
+
+        <activity android:name=".Activity.ReleaseNotiActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

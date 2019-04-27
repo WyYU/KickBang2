@@ -9,4 +9,19 @@
         android:id="@+id/team_noti_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/team_noti_editbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@mipmap/ic_create_white_48dp"
+            app:backgroundTint="@color/colorAccent" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

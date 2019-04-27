@@ -14,8 +14,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.dell.kickbang.Adapter.TabAdapter;
 import com.example.dell.kickbang.Fragment.MainFragment;
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 	Presenter presenter;
 	HttpUtils httpUtils;
 	Utils utils;
+	User user;
+	private Intent notifiService;
 	private RecverNotServer recverNotServer;
 	private TabLayout tabLayout;
 	private ViewPager viewPager;
@@ -66,9 +70,8 @@ public class MainActivity extends AppCompatActivity {
 	private void initService() {
 		Log.e(Tag,"Bind Service");
 		Intent intent = getIntent();
-		User user = (User) intent.getSerializableExtra("User");
-		Log.e("AAAAAAAAAAAAAAAAAAAAAAAA", String.valueOf(user.getTid()));
-		Intent notifiService = new Intent(MainActivity.this,MyService.class);
+		user = (User) intent.getSerializableExtra("User");
+		notifiService = new Intent(MainActivity.this,MyService.class);
 		notifiService.putExtra("User",user);
 		notifiService.putExtra("AA","sadsa");
 		startService(notifiService);
@@ -176,11 +179,21 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode){
-			case 4:
-				ImageView imageView = findViewById(R.id.Notifi_num_icon);
-				imageView.setVisibility(View.INVISIBLE);
-		}
+	protected void onPause() {
+		Log.e(Tag,"onpause");
+		this.unregisterReceiver(notiReciver);
+		unbindService(serviceConnection);
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		Log.e(Tag,"onResume");
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("com.example.dell.kickbang.NotiReciver");
+		Intent notifiService = new Intent(MainActivity.this,MyService.class);
+		bindService(notifiService,serviceConnection,BIND_AUTO_CREATE);
+		this.registerReceiver(notiReciver,intentFilter);
+		super.onResume();
 	}
 }

@@ -322,6 +322,9 @@ public class Presenter {
 				res = response.body().string();
 				Log.e(TAG,res);
 				list = utils.jsontoNoti(res);
+				if (list.size()>15){
+					list = list.subList(0,14);
+				}
 				return list;
 			}
 		});
@@ -360,6 +363,32 @@ public class Presenter {
 			e.printStackTrace();
 		}
 		return "0";
+	}
+
+	public String releaseNewNoti(final String tid, final String context){
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				String res;
+				String url = httpUtils.getrelasnewnoti(tid,context);
+				Request request = new Request.Builder().url(url).build();
+				Call call = client.newCall(request);
+				Response response = call.execute();
+				res = response.body().string();
+				JSONObject j = new JSONObject(res);
+				String result = j.getString("result");
+				return result;
+			}
+		});
+		try {
+			return future.get().toString();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return "null";
 	}
 
 }

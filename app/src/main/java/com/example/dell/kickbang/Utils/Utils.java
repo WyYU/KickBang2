@@ -60,7 +60,7 @@ public class Utils {
 	public AlertDialog.Builder showDelFromTeamDialog(Context context, String msg){
 		final AlertDialog.Builder normalDialog =
 				new AlertDialog.Builder(context);
-		normalDialog.setTitle("Alert");
+		normalDialog.setTitle("提示");
 		normalDialog.setMessage(msg);
 		return normalDialog;
 	}
@@ -191,6 +191,7 @@ public class Utils {
 	public List<Notification> jsontoNoti(String json){
 		List<Notification> list = new ArrayList<>();
 		try {
+			Log.e("XXXXXXJSON",json);
 			JSONArray jsonArray = new JSONArray(json);
 			for (int i = 0 ; i<jsonArray.length();i++){
 				Notification notification = new Notification();

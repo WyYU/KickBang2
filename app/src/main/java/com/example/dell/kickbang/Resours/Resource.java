@@ -15,7 +15,8 @@ public class Resource {
 	private Resource(){};
 	//线上服务器---》39.96.28.73
 	//测试localhost--》192.168.2.118
-	public final String LOCALOHST = "http://192.168.2.118:8080/";
+	//http://192.168.43.162
+	public final String LOCALOHST = "http://192.168.43.162:8080/";
 	public final String imagePath = "";
 	public final String AND = "&";
 
@@ -33,6 +34,7 @@ public class Resource {
 	public static final String UPDATAHEAD = "updatahead";
 	public static final String UPDATANOTIFI = "queryteamnoti?";
 	public static final String GETNOTIFINUM = "qtnm?";
+	public static final String CREATENEWNOTI = "createnewnoti?";
 
 	public final String USERNAME = "username=";
 	public final String PASSWORD = "pwd=";
@@ -46,6 +48,6 @@ public class Resource {
 	public final String POS = "pos=";
 	public final String NUM = "num=";
 	public final String LID = "lid=";
-
+	public final String CONTEXT = "context=";
 	public final int NULL_TEAM_CODE = 26;
 }

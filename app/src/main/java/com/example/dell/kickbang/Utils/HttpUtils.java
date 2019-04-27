@@ -60,5 +60,8 @@ public class HttpUtils {
 	public final String getteamnotifinum(String tid ,String lid ){
 		return res.LOCALOHST+res.GETNOTIFINUM+res.TID+tid+res.AND+res.LID+lid;
 	}
+	public final String getrelasnewnoti(String tid,String context){
+		return res.LOCALOHST+res.CREATENEWNOTI+res.TID+tid+res.AND+res.CONTEXT+context;
+	}
 
 }

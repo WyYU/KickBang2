@@ -38,8 +38,6 @@ public class MyService extends Service {
         httpUtils = HttpUtils.getHttpUtils();
         presenter = new Presenter(getBaseContext());
         preferences = PreferencesFactory.getInstance(getApplicationContext());
-        lastid = preferences.getString("lastnid","110");
-        Log.e("asdasdsadsadsa",lastid);
         super.onCreate();
     }
 
@@ -63,6 +61,7 @@ public class MyService extends Service {
                 @Override
                 public void run() {
                     Intent intent = new Intent();
+                    lastid = preferences.getString("lastnid","110");
                     String s = presenter.getTeamNotinum(tid,lastid);
                     intent.putExtra("count",s);
                     intent.setAction("com.example.dell.kickbang.NotiReciver");

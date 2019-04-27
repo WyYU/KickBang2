@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -107,6 +108,7 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 		recyclerView = view.findViewById(R.id.player_recycler_view);
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 		recyclerView.setLayoutManager(linearLayoutManager);
+		recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
 		playerAdapter = new PlayerAdapter(getContext(), teammate, new PlayerAdapter.OnItemClickCallback() {
 			@Override
 			public void onClick(View view, int position) {
@@ -168,6 +170,16 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 				initView();
 				playerAdapter.notifyDataSetChanged();
 				break;
+			case 4:
+//				Intent intent = getActivity().getIntent();
+//				user = (User) intent.getSerializableExtra("User");
+//				Intent notifiService = new Intent(getActivity(),MyService.class);
+//				notifiService.putExtra("User",user);
+//				getActivity().stopService(notifiService);
+//				getActivity().startService(notifiService);
+//				Log.e(TAG,"restartservice");
+				break;
+
 		}
 	}
 
