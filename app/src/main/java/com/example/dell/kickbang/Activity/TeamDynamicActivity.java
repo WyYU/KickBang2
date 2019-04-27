@@ -112,7 +112,6 @@ public class TeamDynamicActivity extends AppCompatActivity implements View.OnCli
 				if (requestCode == 5){
 					String s = data.getStringExtra("context");
 					String res = presenter.releaseNewNoti(tid,s);
-					Log.e(Tag,res);
 					if (res.equals("null")||res.equals("0")){
 						utils.showDelFromTeamDialog(this,"发布失败,请稍后再试").show();
 					}

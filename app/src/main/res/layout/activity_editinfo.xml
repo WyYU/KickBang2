@@ -23,16 +23,10 @@
                 android:text="头像"
                 android:textSize="@dimen/textsize"/>
         </LinearLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-            <EditText
-                android:id="@+id/user_pos_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="位置"/>
-        </android.support.design.widget.TextInputLayout>
+       <Spinner
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/edit_info_spinner"></Spinner>
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

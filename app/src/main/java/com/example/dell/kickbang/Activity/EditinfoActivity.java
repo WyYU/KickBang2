@@ -18,8 +18,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.dell.kickbang.Model.User;
@@ -30,12 +32,16 @@ import com.example.dell.kickbang.Utils.HttpUtils;
 import com.example.dell.kickbang.Utils.Utils;
 import com.szysky.customize.siv.SImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditinfoActivity extends AppCompatActivity implements View.OnClickListener {
 	private final int CHANGERESULT = 2;
 	private User u;
 	private Utils utils;
 	private SImageView sImageView;
 	private EditText posEdit;
+	private Spinner posSpinner;
 	private EditText numedit;
 	private Resource resource;
 	private HttpUtils httpUtils;
@@ -65,15 +71,52 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 	}
 
 	private void initView() {
-		posEdit = findViewById(R.id.user_pos_edit);
+		//posEdit = findViewById(R.id.user_pos_edit);
+		posSpinner = findViewById(R.id.edit_info_spinner);
 		numedit = findViewById(R.id.user_num_edit);
 		sImageView = findViewById(R.id.user_head_image);
 		Confi_btn = findViewById(R.id.edit_conf_btn);
 		Cancle_btn = findViewById(R.id.edit_cancel_btn);
-		posEdit.setText(u.getPosition());
+		//posEdit.setText(u.getPosition());
 		numedit.setText(u.getNum().toString());
 		sImageView.setImageUrls(resource.LOCALOHST+u.getImagepatch());
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(EditinfoActivity.this, android.R.layout.simple_spinner_dropdown_item, getData());
+		posSpinner.setAdapter(adapter);
+		choosepos(u.getPosition());
 		buildDialog();
+	}
+
+	private void choosepos(String position) {
+		switch (position){
+			case "null":
+				posSpinner.setSelection(0);
+				break;
+			case "前锋":
+				posSpinner.setSelection(1);
+				break;
+			case "中场":
+				posSpinner.setSelection(2);
+				break;
+			case "后卫":
+				posSpinner.setSelection(3);
+				break;
+			case "门将":
+				posSpinner.setSelection(4);
+				break;
+			default:
+				posSpinner.setSelection(0);
+				break;
+		}
+	}
+
+	private List<String> getData() {
+		List<String> dataList = new ArrayList<String>();
+		dataList.add("null");
+		dataList.add("前锋");
+		dataList.add("中场");
+		dataList.add("后卫");
+		dataList.add("门将");
+		return dataList;
 	}
 
 	private void buildDialog() {
