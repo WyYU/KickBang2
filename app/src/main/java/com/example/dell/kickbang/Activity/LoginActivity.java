@@ -78,7 +78,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 			if (preferences.getBoolean("autologin", false)) {
 				Toast.makeText(LoginActivity.this, "自动登录", Toast.LENGTH_SHORT).show();
 				autologin.setChecked(true);
-				login();
+				try {
+					login();
+				}catch (Exception e) {
+					editor.putBoolean("autologin",false);
+				}
+
 			}
 		}
 	}
@@ -87,19 +92,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.login_btn:
-				String res = presenter.login(name_edit.getText().toString(),pwd_edit.getText().toString());
-				if (res.equals("1")) {
-					Log.e(TAG,res);
-					login();
-				} else {
-					utils.showNormalDialog(LoginActivity.this, "用户不存在或密码错误");
-					runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							name_edit.setText("");
-							pwd_edit.setText("");
-						}
-					});
+				try{
+					String res = presenter.login(name_edit.getText().toString(),pwd_edit.getText().toString());
+					if (res.equals("1")) {
+						Log.e(TAG,res);
+						login();
+					} else {
+						utils.showNormalDialog(LoginActivity.this, "用户不存在或密码错误");
+						runOnUiThread(new Runnable() {
+							@Override
+							public void run() {
+								name_edit.setText("");
+								pwd_edit.setText("");
+							}
+						});
+					}
+				}catch (Exception e){
+					editor.putBoolean("autologin",false);
 				}
 				break;
 			case R.id.regist_btn:
@@ -162,22 +171,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 		editor.apply();
 		finish();
 	}
-
-//	public void login() {
-//		new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				Looper.prepare();
-//				String code = presenter.login(name_edit.getText().toString(), pwd_edit.getText().toString());
-//				Message message = new Message();
-//				Bundle bundle = new Bundle();
-//				bundle.putString("code", " " + code);
-//				message.setData(bundle);
-//				message.what = 1;
-//				handler.sendMessage(message);
-//			}
-//		}).start();
-//	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {

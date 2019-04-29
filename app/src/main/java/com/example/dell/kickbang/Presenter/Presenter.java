@@ -391,4 +391,28 @@ public class Presenter {
 		return "null";
 	}
 
+	public String updatausermsg(final String uid, final String pos, final String num){
+		String res ;
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				String url = httpUtils.getUPDATAMSGUrl(uid,num,pos);
+				Request request =new  Request.Builder().url(url).build();
+				Call call = client.newCall(request);
+				String res = call.execute().body().string();
+				return res;
+			}
+		});
+
+		try {
+			return future.get().toString();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return "0";
+	}
+
 }

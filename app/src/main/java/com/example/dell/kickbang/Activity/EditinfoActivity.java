@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -29,11 +30,13 @@ import com.example.dell.kickbang.Presenter.Presenter;
 import com.example.dell.kickbang.R;
 import com.example.dell.kickbang.Resours.Resource;
 import com.example.dell.kickbang.Utils.HttpUtils;
+import com.example.dell.kickbang.Utils.PreferencesFactory;
 import com.example.dell.kickbang.Utils.Utils;
 import com.szysky.customize.siv.SImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class EditinfoActivity extends AppCompatActivity implements View.OnClickListener {
 	private final int CHANGERESULT = 2;
@@ -48,6 +51,7 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 	private Presenter presenter;
 	private AlertDialog.Builder builder;
 	private final int CHOOSE_PHOTO = 2;
+	private SharedPreferences preferences;
 	private Bitmap bitmap;
 	Button Confi_btn;
 	Button Cancle_btn;
@@ -59,6 +63,7 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 		resource = Resource.getInstance();
 		utils = Utils.getInstance();
 		presenter = new Presenter(this);
+		preferences = PreferencesFactory.getInstance(this);
 		PrepareData();
 		initView();
 		initEvent();
@@ -136,7 +141,14 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 
 	private void PrepareData() {
 		Intent intent = getIntent();
-		u = (User) intent.getSerializableExtra("EditUser");
+		try {
+			u = presenter.queryUser(preferences.getString("username","null"));
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		//u = (User) intent.getSerializableExtra("EditUser");
 	}
 
 	@Override
@@ -151,6 +163,8 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 				break;
 			case R.id.edit_conf_btn:
 				updataimage(imagePath, String.valueOf(u.getId()));
+				String pos = posSpinner.getSelectedItem().toString();
+				presenter.updatausermsg(String.valueOf(u.getId()),pos,numedit.getText().toString());
 				Intent i = new Intent();
 				i.putExtra("result",CHANGERESULT);
 				setResult(RESULT_OK,i);
