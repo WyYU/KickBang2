@@ -85,7 +85,7 @@ public class SearchActivity extends AppCompatActivity {
 	}
 
 	private boolean checktext(String stext) {
-		if ("".equals(stext)){
+		if ("".equals(stext)||stext==null){
 			return false;
 		}
 		return true;
