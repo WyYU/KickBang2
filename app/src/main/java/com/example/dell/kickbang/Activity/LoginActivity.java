@@ -1,13 +1,8 @@
 package com.example.dell.kickbang.Activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -138,7 +133,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 	public void login() {
 		Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 		try {
-			user = presenter.queryUser(name_edit.getText().toString());
+			user = presenter.queryUserbyName(name_edit.getText().toString());
 			Log.e("AAAAAAAA",user.toString());
 			team = presenter.queryteam(String.valueOf(user.getTid()));
 			intent.putExtra("User",user);

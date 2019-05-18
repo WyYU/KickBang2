@@ -15,13 +15,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <SearchView
-                android:id="@+id/SearchView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:queryHint="搜索"
-                tools:ignore="InvalidId"/>
+            <!--<SearchView-->
+                <!--android:id="@+id/SearchView"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="#fff"-->
+                <!--android:queryHint="搜索"-->
+                <!--tools:ignore="InvalidId"/>-->
 
             <TextView
                 android:layout_width="match_parent"

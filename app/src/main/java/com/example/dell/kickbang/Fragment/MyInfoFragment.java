@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.example.dell.kickbang.Activity.AboutActivity;
 import com.example.dell.kickbang.Activity.EditinfoActivity;
 import com.example.dell.kickbang.Activity.LoginActivity;
 import com.example.dell.kickbang.Model.User;
@@ -37,6 +38,7 @@ public class MyInfoFragment extends Fragment {
 	ImageView back;
 	Resource resource;
 	TextView edittext;
+	TextView abouttext;
 	Button exitButton;
 	@Nullable
 	@Override
@@ -61,6 +63,7 @@ public class MyInfoFragment extends Fragment {
 		head = view.findViewById(R.id.h_head);
 		head.mUrlLoading.clear();
 		back = view.findViewById(R.id.h_back);
+		abouttext = view.findViewById(R.id.u_info_about);
 		head.setImageUrls(resource.LOCALOHST+user.getImagepatch());
 		Glide.with(getActivity()).load(R.drawable.touxiang1).bitmapTransform(new BlurTransformation(getActivity(),25),new CenterCrop(getActivity())).into(back);
 		edittext.setOnClickListener(new View.OnClickListener() {
@@ -77,6 +80,13 @@ public class MyInfoFragment extends Fragment {
 				Intent intent = new Intent(getActivity(),LoginActivity.class);
 				startActivity(intent);
 				getActivity().finish();
+			}
+		});
+		abouttext.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(),AboutActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

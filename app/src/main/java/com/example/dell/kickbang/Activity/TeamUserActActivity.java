@@ -86,6 +86,10 @@ public class TeamUserActActivity extends AppCompatActivity implements View.OnCli
 			delfab.setVisibility(View.INVISIBLE);
 			editfab.setVisibility(View.INVISIBLE);
 		}
+		if (!user.getTid().equals(loginusertid)){
+			editfab.setVisibility(View.INVISIBLE);
+			delfab.setVisibility(View.INVISIBLE);
+		}
 
 	}
 

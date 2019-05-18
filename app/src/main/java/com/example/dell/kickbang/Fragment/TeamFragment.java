@@ -151,12 +151,18 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 		switch (item.getItemId()){
 			case R.id.addplayer:
 				if (Integer.parseInt(utid)==26){
-					Toast.makeText(getActivity(),"你还没有球队",Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(),"您还没有球队",Toast.LENGTH_SHORT).show();
 					return false;
 				}
 				if (Integer.parseInt(ulv)<3){
 					Toast.makeText(getActivity(),"您的等级不够",Toast.LENGTH_SHORT).show();
 				}
+				break;
+			case R.id.createteam:
+				if (Integer.parseInt(utid)!=26){
+					Toast.makeText(getActivity(),"您已在一支球队里了",Toast.LENGTH_SHORT).show();
+				}
+				break;
 		}
 		return false;
 	}

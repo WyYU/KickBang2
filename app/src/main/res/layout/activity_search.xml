@@ -5,5 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.dell.kickbang.Activity.SearchActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <SearchView
+            android:id="@+id/s_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="输入id或用户名查询"/>
+        <TextView
+            android:id="@+id/s_usertitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="用户"
+            android:textColor="@color/White"
+            android:background="#708090"/>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/search_userresult">
+        </android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/s_teamtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="球队"
+            android:textColor="@color/White"
+            android:background="#708090"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_teamresult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

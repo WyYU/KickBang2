@@ -101,4 +101,8 @@ public class Team implements Serializable{
         this.players = players;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

@@ -16,6 +16,7 @@ public class Resource {
 	//线上服务器---》39.96.28.73
 	//测试localhost--》192.168.2.118
 	//http://192.168.43.162
+	//校园网ip http://10.71.132.235
 	public final String LOCALOHST = "http://192.168.43.162:8080/";
 	public final String imagePath = "";
 	public final String AND = "&";

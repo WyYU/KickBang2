@@ -63,5 +63,8 @@ public class HttpUtils {
 	public final String getrelasnewnoti(String tid,String context){
 		return res.LOCALOHST+res.CREATENEWNOTI+res.TID+tid+res.AND+res.CONTEXT+context;
 	}
+	public final String getSearchuser(String uname){
+		return res.LOCALOHST+"searchuser?value="+uname;
+	}
 
 }

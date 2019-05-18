@@ -142,7 +142,7 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 	private void PrepareData() {
 		Intent intent = getIntent();
 		try {
-			u = presenter.queryUser(preferences.getString("username","null"));
+			u = presenter.queryUserbyName(preferences.getString("username","null"));
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

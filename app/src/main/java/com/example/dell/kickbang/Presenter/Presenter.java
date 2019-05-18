@@ -92,7 +92,7 @@ public class Presenter {
 	}
 
 	@NonNull
-	public User queryUser(final String name) throws ExecutionException, InterruptedException {
+	public User queryUserbyName(final String name) throws ExecutionException, InterruptedException {
 		threadPoolService = ThreadPoolService.getInstance();
 		Future<User> future = threadPoolService.submit(new Callable<User>() {
 			@Override
@@ -103,6 +103,34 @@ public class Presenter {
 				httpUtils = HttpUtils.getHttpUtils();
 				MyClient client = MyClient.getInstance();
 				String queryuserUrl = httpUtils.getQueryuserUrl("uname", name);
+				Request request = new Request.Builder().url(queryuserUrl).build();
+				Call call = client.newCall(request);
+				try {
+					userRes = call.execute();
+					String result = userRes.body().string();
+					user = utils.jsontoUser(result);
+				} catch (IOException e) {
+					//utils.showNormalDialog(getBaseContext(), "初始化信息失败，请检查网络");
+				}
+				return user;
+			}
+		});
+		User user = future.get();
+		return user;
+	}
+
+	@NonNull
+	public User queryUserbyid(final String id) throws ExecutionException, InterruptedException {
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<User> future = threadPoolService.submit(new Callable<User>() {
+			@Override
+			public User call() throws Exception {
+				User user = null;
+				Response userRes;
+				//加载用户信息
+				httpUtils = HttpUtils.getHttpUtils();
+				MyClient client = MyClient.getInstance();
+				String queryuserUrl = httpUtils.getQueryuserUrl("id", id);
 				Request request = new Request.Builder().url(queryuserUrl).build();
 				Call call = client.newCall(request);
 				try {
@@ -413,6 +441,29 @@ public class Presenter {
 			e.printStackTrace();
 		}
 		return "0";
+	}
+
+	public List<User> searchUserbyname(final String uname){
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<List<User>> future = threadPoolService.submit(new Callable<List<User>>() {
+			@Override
+			public List<User> call() throws Exception {
+				String url = httpUtils.getSearchuser(uname);
+				Request request = new Request.Builder().url(url).build();
+				Call call = client.newCall(request);
+				String res = call.execute().body().string();
+				List<User> list1 = utils.jsontoUserlist(res);
+				return list1;
+			}
+		});
+		try {
+			return future.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

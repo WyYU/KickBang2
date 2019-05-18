@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.dell.kickbang.Activity.EditinfoActivity;
 import com.example.dell.kickbang.Activity.LoginActivity;
 import com.example.dell.kickbang.Activity.MainActivity;
+import com.example.dell.kickbang.Activity.SearchActivity;
+import com.example.dell.kickbang.Activity.TeamMsgActivity;
 import com.example.dell.kickbang.Adapter.FieldAdapter;
 import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Team;
@@ -54,6 +58,7 @@ public class MainFragment extends Fragment {
 	SImageView teamImage;
 	CardView teamcardView;
 	ListView fieldLIstView;
+	android.widget.SearchView searchView;
 	private static String Tag = "Fragment";
 	public View view;
 
@@ -84,6 +89,16 @@ public class MainFragment extends Fragment {
 			teamImage.setImageUrls(resource.LOCALOHST+team.getIconpath());
 			//teamcountView.setText(String.valueOf(teammate.size()));
 		}
+		teamImage.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), TeamMsgActivity.class);
+				int tid = team.getTid();
+				if (tid!=26){
+					startActivity(intent);
+				}
+			}
+		});
 	}
 
 	public void initUserCard() {
@@ -94,14 +109,22 @@ public class MainFragment extends Fragment {
 		}else {teamTextView.setText(team.getTname());}
 		goalTextView.setText(String.valueOf(user.getGoal()));
 		assTextview.setText(String.valueOf(user.getAssisting()));
-		String imageurl = resource.LOCALOHST+user.getImagepatch();
+		final String imageurl = resource.LOCALOHST+user.getImagepatch();
 		for (int i = 0;i<imageView.mUrlLoading.size();i++){
 			Log.e("aaaaaaaaa",imageView.mUrlLoading.get(i).toString());
 		}
 		imageView.setImageUrls(imageurl);
+		imageView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), EditinfoActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	public void initView() {
+		//searchView = view.findViewById(R.id.SearchView);
 		teamcardView = view.findViewById(R.id.team_cardView);
 		imageView = view.findViewById(R.id.user_icon_image);
 		username = view.findViewById(R.id.main_username_textview);
