@@ -118,5 +118,14 @@ public class SearchActivity extends AppCompatActivity {
 		recyclerView.setAdapter(adapter);
 	}
 
-
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.e("asdsadsadsadsad", String.valueOf(resultCode));
+		switch (resultCode){
+			case 3:
+				Intent intent = getIntent();
+				setResult(7,intent);
+				break;
+		}
+	}
 }

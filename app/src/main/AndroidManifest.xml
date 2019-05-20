@@ -38,7 +38,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".Activity.AboutActivity" />
         <activity android:name=".Activity.SettingActivity" />
-        <activity android:name=".Activity.TeamMsgActivity"></activity>
+        <activity android:name=".Activity.TeamMsgActivity" />
     </application>
 
 </manifest>

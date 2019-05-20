@@ -51,8 +51,15 @@ public class HttpUtils {
 	public final String getCreateTeamUrl(String tname){
 		return res.LOCALOHST+res.CTEATETEAM+res.TNAME+tname;
 	}
+	public final String getCreateTeamUrl(String uid,String tname,String intro){
+		return res.LOCALOHST+res.CTEATETEAM+res.UID+uid+res.AND+res.TNAME+tname+res.AND+"desc="+intro;
+	}
 	public final String getuploadheadimage(String uid){
 		return res.LOCALOHST+res.UPDATAHEAD+"?uid="+uid;
+	}
+
+	public final String getuploadteamicon(String teamid){
+		return res.LOCALOHST+res.UPDATATEAMIMG+"tid="+teamid;
 	}
 	public final String getteamnotifi(String uid){
 		return res.LOCALOHST+res.UPDATANOTIFI+"tid="+uid;

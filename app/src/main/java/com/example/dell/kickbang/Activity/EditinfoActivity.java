@@ -125,7 +125,7 @@ public class EditinfoActivity extends AppCompatActivity implements View.OnClickL
 	}
 
 	private void buildDialog() {
-		builder = utils.buildChooseHeadDialog(this,EditinfoActivity.this);
+		builder = utils.buildChooseHeadDialog(this);
 		final String[] choose = {"拍一张", "从相册选择"};
 		builder.setItems(choose, new DialogInterface.OnClickListener() {
 			@Override

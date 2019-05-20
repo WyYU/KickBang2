@@ -163,6 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 		}
 		editor.putString("usertid", String.valueOf(user.getTid()));
 		editor.putString("userlv", String.valueOf(user.getLevel()));
+		editor.putString("useruid", String.valueOf(user.getId()));
 		editor.apply();
 		finish();
 	}

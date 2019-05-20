@@ -41,7 +41,7 @@ public class Utils {
 	private Utils(){
 
 	}
-	public void showNormalDialog(Context context, String msg){
+	public AlertDialog.Builder showNormalDialog(Context context, String msg){
 		final AlertDialog.Builder normalDialog =
 				new AlertDialog.Builder(context);
 		normalDialog.setTitle("Alert");
@@ -55,6 +55,7 @@ public class Utils {
 				});
 		// 显示
 		normalDialog.show();
+		return normalDialog;
 	}
 
 	public AlertDialog.Builder showDelFromTeamDialog(Context context, String msg){
@@ -65,7 +66,15 @@ public class Utils {
 		return normalDialog;
 	}
 
-	public AlertDialog.Builder buildChooseHeadDialog(final Context context, final EditinfoActivity editinfoActivity){
+	public AlertDialog.Builder showchooswDialog(Context context,String msg){
+		final AlertDialog.Builder normalDialog =
+				new AlertDialog.Builder(context);
+		normalDialog.setTitle("提示");
+		normalDialog.setMessage(msg);
+		return normalDialog;
+	}
+
+	public AlertDialog.Builder buildChooseHeadDialog(final Context context){
 		final AlertDialog.Builder normalDialog =
 				new AlertDialog.Builder(context);
 		normalDialog.setTitle("修改头像");
@@ -210,5 +219,19 @@ public class Utils {
 		return list;
 	}
 
-
+	public String jsontocreateteamid(String result) {
+		String tid;
+		try {
+			JSONObject jsonObject = new JSONObject(result);
+			String res = jsonObject.getString("result");
+			tid = jsonObject.getString("tid");
+			if (res.equals("0")){
+				return "0";
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return "0";
+		}
+		return tid;
+	}
 }

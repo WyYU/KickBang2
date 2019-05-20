@@ -30,12 +30,13 @@ public class Resource {
 	public final String JOINTEAM = "jointeam?";
 	public final String DELUSER = "deluser?";
 	public final String UPDATAMSG = "updatamsg?";
-	public final String CTEATETEAM = "createteam?";
+	public final String CTEATETEAM = "createnteam?";
 	public final String QUERYFIELD = "queryfield";
 	public static final String UPDATAHEAD = "updatahead";
 	public static final String UPDATANOTIFI = "queryteamnoti?";
 	public static final String GETNOTIFINUM = "qtnm?";
 	public static final String CREATENEWNOTI = "createnewnoti?";
+	public static final String UPDATATEAMIMG = "updatateamhead?";
 
 	public final String USERNAME = "username=";
 	public final String PASSWORD = "pwd=";

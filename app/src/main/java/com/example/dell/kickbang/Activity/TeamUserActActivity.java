@@ -6,10 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dell.kickbang.Model.User;
 import com.example.dell.kickbang.Presenter.Presenter;
@@ -33,8 +35,10 @@ public class TeamUserActActivity extends AppCompatActivity implements View.OnCli
 	FloatingActionButton addfab;
 	Integer loginuserlv;
 	Integer loginusertid;
+	Integer loginuserid;
 	Utils utils;
 	Presenter presenter;
+	private Resource resource;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,6 +50,8 @@ public class TeamUserActActivity extends AppCompatActivity implements View.OnCli
 		user = (User) intent.getSerializableExtra("User");
 		loginuserlv = Integer.valueOf(preferences.getString("userlv",null));
 		loginusertid = Integer.valueOf(preferences.getString("usertid",null));
+		loginuserid = Integer.valueOf(preferences.getString("useruid",null));
+		resource = Resource.getInstance();
 		initView();
 		inputdata();
 		initEvent();
@@ -73,6 +79,7 @@ public class TeamUserActActivity extends AppCompatActivity implements View.OnCli
 	}
 
 	private void initfab() {
+		Log.e("ARAR", String.valueOf(user.getId())+"loginid "+loginuserid );
 		if (user.getTid().equals(loginusertid)){
 			addfab.setVisibility(View.INVISIBLE);
 		}
@@ -88,6 +95,10 @@ public class TeamUserActActivity extends AppCompatActivity implements View.OnCli
 		}
 		if (!user.getTid().equals(loginusertid)){
 			editfab.setVisibility(View.INVISIBLE);
+			delfab.setVisibility(View.INVISIBLE);
+		}
+		if (user.getId()==loginuserid){
+			addfab.setVisibility(View.INVISIBLE);
 			delfab.setVisibility(View.INVISIBLE);
 		}
 
@@ -127,6 +138,30 @@ public class TeamUserActActivity extends AppCompatActivity implements View.OnCli
 					}
 				});
 				a.show();
+				break;
+			case R.id.addteamfab:
+				int tid = user.getTid();
+				if (tid!=resource.NULL_TEAM_CODE){
+					utils.showNormalDialog(this,"该用户已经加入其他球队...");
+				}else {
+					AlertDialog.Builder alertDialog = utils.showchooswDialog(this,"确认该用户加入您的球队?");
+					alertDialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							presenter.jointeam(String.valueOf(user.getId()),String.valueOf(loginusertid));
+							Intent intent = getIntent();
+							setResult(7,intent);
+					}
+					});
+					alertDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					});
+					alertDialog.show();
+				}
+				break;
 		}
 	}
 

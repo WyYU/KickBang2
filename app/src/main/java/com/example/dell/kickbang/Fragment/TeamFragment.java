@@ -20,6 +20,7 @@ import android.widget.PopupMenu;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.dell.kickbang.Activity.CreateNewTeamActivity;
 import com.example.dell.kickbang.Activity.MainActivity;
 import com.example.dell.kickbang.Activity.SearchActivity;
 import com.example.dell.kickbang.Activity.TeamDynamicActivity;
@@ -40,6 +41,7 @@ import java.util.List;
 
 public class TeamFragment extends Fragment implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 	private final String  TAG = "TeamFragment";
+	private final int CREATENEWTEAM = 3;
 	PlayerAdapter playerAdapter;
 	RecyclerView recyclerView;
 	Resource resource;
@@ -92,7 +94,9 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 		Intent intent = getActivity().getIntent();
 		try {
 			user = (User) intent.getSerializableExtra("User");
-			teammate = presenter.queryteamplayer(String.valueOf(user.getTid()));
+			Log.e(TAG,"utid"+utid);
+			teammate = presenter.queryteamplayer(utid);
+			user.setTid(Integer.valueOf(utid));
 			if (user.getTid() == resource.NULL_TEAM_CODE) {
 				teammate.clear();
 			}
@@ -134,7 +138,7 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 				break;
 			case R.id.search_button:
 				Intent intent = new Intent(getContext(), SearchActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent,4);
 				break;
 			case R.id.Notification_btn:
 				Intent intent1 = new Intent(getContext(), TeamDynamicActivity.class);
@@ -157,10 +161,17 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 				if (Integer.parseInt(ulv)<3){
 					Toast.makeText(getActivity(),"您的等级不够",Toast.LENGTH_SHORT).show();
 				}
+				else {
+					Intent intent = new Intent(getActivity(),SearchActivity.class);
+					startActivityForResult(intent,4);
+				}
 				break;
 			case R.id.createteam:
 				if (Integer.parseInt(utid)!=26){
 					Toast.makeText(getActivity(),"您已在一支球队里了",Toast.LENGTH_SHORT).show();
+				} else {
+					Intent intent = new Intent(getActivity(), CreateNewTeamActivity.class);
+					startActivityForResult(intent,4);
 				}
 				break;
 		}
@@ -185,7 +196,21 @@ public class TeamFragment extends Fragment implements View.OnClickListener, Popu
 //				getActivity().startService(notifiService);
 //				Log.e(TAG,"restartservice");
 				break;
-
+			case 6:
+				Log.e(TAG,"CREATETEAM");
+				utid = data.getStringExtra("tid");
+				prepareData();
+				Log.e(TAG,teammate.toString());
+				initView();
+				Intent notifiService = new Intent(getActivity(),MyService.class);
+				notifiService.putExtra("User",user);
+				getActivity().stopService(notifiService);
+				getActivity().startService(notifiService);
+				Log.e(TAG,"restartservice");
+				break;
+			case 7:
+				prepareData();
+				initView();
 		}
 	}
 

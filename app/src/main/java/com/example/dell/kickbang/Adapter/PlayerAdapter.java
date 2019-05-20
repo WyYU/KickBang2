@@ -51,7 +51,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 	public void onBindViewHolder(ViewHolder holder, final int position) {
 		User user = users.get(position);
 		holder.username.setText("用户:" + user.getUsername());
-		holder.number.setText("号码:" + String.valueOf(user.getNum()));
+		holder.number.setText("球队编号:" + user.getTid());
 		holder.pos.setText("位置:" + user.getPosition());
 		holder.sImageView.setImageUrls(resource.LOCALOHST + user.getImagepatch());
 		holder.itemView.setTag(position);

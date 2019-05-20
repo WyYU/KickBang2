@@ -155,6 +155,7 @@ public class MainFragment extends Fragment {
 			user = (User) intent.getSerializableExtra("User");
 			Log.e("",user.toString());
 			team = (Team) intent.getSerializableExtra("Team");
+			Log.e("TEAMTEAM",team.toString());
 			fields = (ArrayList<Field>) presenter.queryField();
 		} catch (Exception e) {
 			e.printStackTrace();
