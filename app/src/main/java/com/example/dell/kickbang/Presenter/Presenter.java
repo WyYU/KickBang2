@@ -13,6 +13,7 @@ import com.example.dell.kickbang.Model.Field;
 import com.example.dell.kickbang.Model.Notification;
 import com.example.dell.kickbang.Model.Team;
 import com.example.dell.kickbang.Model.User;
+import com.example.dell.kickbang.Resours.Resource;
 import com.example.dell.kickbang.Utils.HttpUtils;
 import com.example.dell.kickbang.Utils.MyClient;
 import com.example.dell.kickbang.Utils.ThreadPoolService;
@@ -59,8 +60,10 @@ public class Presenter {
 	public String registres;
 	private ThreadPoolExecutor threadPoolService;
 	private Context context;
+	private Resource resource;
 
 	public Presenter(Context context){
+		resource = Resource.getInstance();
 		utils = Utils.getInstance();
 		httpUtils = HttpUtils.getHttpUtils();
 		client = MyClient.getInstance();
@@ -261,7 +264,7 @@ public class Presenter {
 			public String call() throws Exception {
 				String result ;
 				try {
-					String removeuserurl = httpUtils.getJoinTeamUrl(String.valueOf(id),String.valueOf(26));
+					String removeuserurl = httpUtils.getJoinTeamUrl(String.valueOf(id),String.valueOf(resource.NULL_TEAM_CODE));
 					Request request = new Request.Builder().url(removeuserurl).build();
 					Call call = client.newCall(request);
 					Response response = call.execute();
@@ -314,6 +317,44 @@ public class Presenter {
 				return result;
 			}
 		});
+	}
+
+	public String updatateamicon(final String tid, final Bitmap bitmap) {
+		threadPoolService = ThreadPoolService.getInstance();
+		final File file = getFile(bitmap);
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			String result;
+			@Override
+			public String call() throws Exception {
+				RequestBody fileBody = RequestBody.create(MEDIA_TYPE_JPG,file);
+				RequestBody requestBody = new MultipartBody.Builder()
+						.setType(MultipartBody.FORM)
+						.addFormDataPart("file","testImage.jpg",fileBody)
+						.build();
+				Request request = new Request.Builder().url(httpUtils.getuploadteamicon(tid)).post(requestBody).build();
+				Call call = client.newCall(request);
+				call.enqueue(new Callback() {
+					@Override
+					public void onFailure(Call call, IOException e) {
+						Toast.makeText(context,"网络连接失败！",Toast.LENGTH_LONG).show();
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException {
+						result = "1";
+					}
+				});
+				Response response = client.newCall(request).execute();
+				return result;
+			}
+		});
+		try {
+			return future.get().toString();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}return "null";
 	}
 
 	public File getFile(Bitmap bitmap) {
@@ -466,4 +507,61 @@ public class Presenter {
 		return null;
 	}
 
+	public String jointeam(final String uid, final String targetTid){
+		threadPoolService = ThreadPoolService.getInstance();
+		Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				String result ;
+				try {
+					String removeuserurl = httpUtils.getJoinTeamUrl(String.valueOf(uid),String.valueOf(targetTid));
+					Request request = new Request.Builder().url(removeuserurl).build();
+					Call call = client.newCall(request);
+					Response response = call.execute();
+					String res = response.body().string();
+					JSONObject jsonObject = new JSONObject(res);
+					result = jsonObject.getString("result");
+					Log.e("",removeuserurl);
+					return result;
+				}catch (Exception e) {
+					return "0";
+				}
+			}
+		});
+		try {
+			return future.get();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return "0";
+	}
+
+	public void updatateamimage(Bitmap bitmap) {
+	}
+
+	public String  createnewteam(final String  creatoruid , final String tname, final String tintro, int i) {
+		threadPoolService = ThreadPoolService.getInstance();
+	 	Future<String> future = threadPoolService.submit(new Callable<String>() {
+			@Override
+			public String call() throws Exception {
+				String httpurl = httpUtils.getCreateTeamUrl(creatoruid,tname,tintro);
+				Log.e(TAG,httpurl);
+				Request request = new Request.Builder().url(httpurl).build();
+				Call call = client.newCall(request);
+				String result = call.execute().body().string();
+				String tid = utils.jsontocreateteamid(result);
+				return tid;
+			}
+		});
+		try {
+			return future.get().toString();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
+		return "0";
+	}
 }
